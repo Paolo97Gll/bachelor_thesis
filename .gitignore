@@ -9,3 +9,6 @@ data
 
 # results folders
 ris
+
+# SyncToy files
+SyncToy*
