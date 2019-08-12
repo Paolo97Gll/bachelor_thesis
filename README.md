@@ -11,7 +11,7 @@ The main OS used is Microsoft Windows 10 with Miniconda and Intel Distribution f
 - [ ] View machine learning video.
 
 - [ ] DATA CLEANING; folder `cleaning`.
-	- [ ] Create the **galaxy dust mask**, using `healpy` and a threshold value.
+	- [ ] Create the **galaxy dust mask**, using healpy and a threshold value.
 	- [ ] Clean data by removing:
 		1) **galactic dipole**.
 		2) **galaxy dust**, using both the dust mask and the sci-data bit for a double check.
