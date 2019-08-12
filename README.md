@@ -10,13 +10,13 @@ The main OS used is Microsoft Windows 10 with Miniconda and Intel Distribution f
 
 - [ ] View machine learning video.
 
-- [ ] DATA CLEANING.
+- [ ] DATA CLEANING; folder `cleaning`.
 	- [ ] Create the **galaxy dust mask**, using `healpy` and a threshold value.
 	- [ ] Clean data by removing:
 		1) **galactic dipole**.
 		2) **galaxy dust**, using both the dust mask and the sci-data bit for a double check.
 		3) **sequential differences**. Data in raw files are one positive and one negative (it's a method to reduce errors), so the absolute value make the data all positive. Sequential differences divided by 2 are the mean values.
-- [ ] DATA CLASSIFICATION; _number of data to be classified: 2000_ (1000 with a glitch, 1000 without it).
+- [ ] DATA CLASSIFICATION; folder `classification`. _Number of data to be classified: 2000_ (1000 with a glitch, 1000 without it).
 
 
 ## Resources
