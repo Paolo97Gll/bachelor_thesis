@@ -14,4 +14,4 @@ Repository for bachelor thesis code.
 	- `HFI`: HFI data (143 GHz) from OD 91 to OD 105 containing CMB data.
 	- `Milky_Way`: HFI data (353 GHz) containing Milky Way dust data.
 
-- `other`: directory for non-essential files.
+- `other`: directory for non-essential files; not present in this repo due to excessive weight.
