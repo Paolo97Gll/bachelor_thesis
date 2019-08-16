@@ -19,7 +19,7 @@ The main OS used is Microsoft Windows 10 with Miniconda and Intel Distribution f
 
 ## Resources
 
-- Machine learning video: [Jake VanderPlas: Machine Learning with Scikit Learn](https://www.youtube.com/watch?v=HC0J_SPm9co).
+- Machine learning video: [Jake VanderPlas: Machine Learning with Scikit Learn](https://www.youtube.com/watch?v=HC0J_SPm9co)
 
 - [Plank Legacy Archive](http://pla.esac.esa.int/pla/#home)
 
