@@ -51,7 +51,7 @@ hfi353 = hp.read_map("/mnt/d/Tesi/data/MilkyWay/HFI_SkyMap_353-psb_2048_R3.01_fu
     # intensity values.
 # Default map is in galactic coordinates
 print("\n-> Drawing galactic map...")
-hp.mollview(hfi353, norm="hist")
+hp.mollview(hfi353, coord="G", norm="hist")
 plt.savefig("ris/galactic_galaxy_map.png", dpi=800)
 # Save also in ecliptic coordinates
 print("-> Drawing ecliptic map...")
@@ -99,5 +99,5 @@ hp.mollview(dust_map, coord="EG")
 plt.savefig("ris/galactic_galaxy_mask.png", dpi=800)
 # Ecliptic coordinates
 print("-> Drawing ecliptic mask...")
-hp.mollview(dust_map)
+hp.mollview(dust_map, coord="E")
 plt.savefig("ris/ecliptic_galaxy_mask.png", dpi=800)
