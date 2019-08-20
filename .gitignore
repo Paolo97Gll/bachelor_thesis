@@ -12,3 +12,6 @@ ris
 
 # SyncToy files
 SyncToy*
+
+# Jupyther checkpoints
+.ipynb_checkpoints
