@@ -10,6 +10,9 @@ data
 # results folders
 ris
 
+# old files
+old
+
 # SyncToy files
 SyncToy*
 
