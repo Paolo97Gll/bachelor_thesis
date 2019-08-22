@@ -31,7 +31,7 @@ The main OS used is Microsoft Windows 10 with Miniconda and Intel Distribution f
 			bit 4: StrongSignal; 1 = In Galactic plane
 			bit 5: StrongSource; 1 = On point source
 			```
-		Data with these flags must be discarded.
+			Data with these flags must be discarded.
 	
 - [ ] **DATA CLASSIFICATION**, folder `classification` .
 
