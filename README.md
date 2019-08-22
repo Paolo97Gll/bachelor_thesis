@@ -1,4 +1,4 @@
-# bachelor-thesis
+# bachelor_thesis
 
 _Machine learning techniques for CMB glitch detection._
 
