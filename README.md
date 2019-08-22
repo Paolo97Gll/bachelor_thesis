@@ -12,7 +12,7 @@ The main OS used is Microsoft Windows 10 with Miniconda and Intel Distribution f
 
 - [x] **DATA CLEANING**, folder `cleaning` : clean data from various effects. Since the purpose of this thesis is to detect glitches and not to clean up the RAW signal from the galactic signal and other signals, all points that are on the galactic plane or coincide with a point source can be ignored without any consequences. The effects to be cleaned up are:
 
-	- _Galactic dipole_ using the theorical equation.
+	- _Galactic dipole_ using the theoretical equation.
 	
 	- _Galactic plane signal_ and _point sources_ using a mask extracted from the flags in SCI data.
 	
@@ -22,7 +22,7 @@ The main OS used is Microsoft Windows 10 with Miniconda and Intel Distribution f
 	
 	- [x] **Clean data** by removing:
 	
-		- _Galactic dipole_ using the theorical equation reported [here](https://www.aanda.org/articles/aa/abs/2014/11/aa21527-13/aa21527-13.html) (section 3.1, point 1):
+		- _Galactic dipole_ using the theoretical equation reported [here](https://www.aanda.org/articles/aa/abs/2014/11/aa21527-13/aa21527-13.html) (section 3.1, point 1):
 		
 			![dipole_T](https://www.aanda.org/articles/aa/full_html/2014/11/aa21527-13/aa21527-13-eq237.png)
 		
