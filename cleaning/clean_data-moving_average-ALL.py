@@ -3,7 +3,8 @@
 
 
 # CLEAN DATA
-# Remove the galactic dust, the point sources and the galactic dipole from RAW data; this is necessary to make a correct classification of the glitches.
+# Remove the galactic dust, the point sources and the galactic dipole from RAW data;
+# this is necessary to make a correct classification of the glitches.
 
 
 import healpy as hp
