@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
+
 # CLEAN DATA
 # Remove the galactic dust, the point sources and the galactic dipole from RAW data; this is necessary to make a correct classification of the glitches.
 
