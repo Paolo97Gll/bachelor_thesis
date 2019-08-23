@@ -32,6 +32,17 @@ The main OS used is Microsoft Windows 10 with Miniconda and Intel Distribution f
 			bit 5: StrongSource; 1 = On point source
 			```
 			Data with these flags must be discarded.
+			
+		Cleaning is not done on RAW data, but on the following quantity:
+		
+		<a href="https://www.codecogs.com/eqnedit.php?latex=\text{data}&space;=&space;\frac{&space;\text{averaged&space;data}&space;-&space;\text{zero&space;point}}{\text{calibration&space;constant}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\text{data}&space;=&space;\frac{&space;\text{averaged&space;data}&space;-&space;\text{zero&space;point}}{\text{calibration&space;constant}}" title="\text{data} = \frac{ \text{averaged data} - \text{zero point}}{\text{calibration constant}}" /></a>
+		
+		with:
+		
+		<a href="https://www.codecogs.com/eqnedit.php?latex=\text{averaged&space;data}&space;=&space;\left|&space;\frac{\text{RAW&space;data}&space;-&space;\text{MovingAverage}(\text{RAW&space;data}&space;\text{,&space;N&space;elements&space;subset})}{\text{N&space;elements&space;subset}}&space;\right|" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\text{averaged&space;data}&space;=&space;\left|&space;\frac{\text{RAW&space;data}&space;-&space;\text{MovingAverage}(\text{RAW&space;data}&space;\text{,&space;N&space;elements&space;subset})}{\text{N&space;elements&space;subset}}&space;\right|" title="\text{averaged data} = \left| \frac{\text{RAW data} - \text{MovingAverage}(\text{RAW data} \text{, N elements subset})}{\text{N elements subset}} \right|" /></a>
+		
+		where the moving average subsets are composed of an hour of data, i.e. 649346 elements.
+		
 	
 - [ ] **DATA CLASSIFICATION**, folder `classification` .
 
