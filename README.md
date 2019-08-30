@@ -1,11 +1,6 @@
 # bachelor_thesis
 
-_Machine learning techniques for CMB glitch detection._
-
-
-#### Note
-
-The main OS used is Microsoft Windows 10 with Miniconda and Intel Distribution for Python 3: so all the paths in the code are written in the Windows style (`C:\path\to\data`). However, because the `healpy` package is compatible only with Linux and MacOS, the data cleaning is made using the Windows Subsystem for Linux (WSL) with Miniconda and Intel Distribution for Python 3: so the cleaning code use Linux style paths (`/path/to/data`).
+_Machine learning techniques for CMB glitch detection in Planck/HFI data._
 
 
 ## TODO and roadmap
