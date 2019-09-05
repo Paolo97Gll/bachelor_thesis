@@ -96,9 +96,8 @@ for OPERATING_DAY in range(91,106):
 
         # Data
         # Moving average
-        data_ma = pd.Series(data_raw).rolling(window=MA_LENGTH).mean().iloc[MA_LENGTH-1:].values
-        data = (data_raw[:NEW_LENGTH] - data_ma) / MA_LENGTH
-        data = np.abs(data)
+        data_ma = pd.Series(np.abs(data_raw)).rolling(window=MA_LENGTH).mean().iloc[MA_LENGTH-1:].values
+        data = (np.abs(data_raw[:NEW_LENGTH]) - data_ma) / MA_LENGTH
         # Calibrate values
         data = (data - ZERO_POINT) / CALIBRATION_CONSTANT
 
@@ -134,10 +133,9 @@ for OPERATING_DAY in range(91,106):
         # Evaluate the G factor
         M = dipole[:, np.newaxis]*[0, 1]
         p, res, rnk, s = lstsq(M, data)
-        G = p[1]
 
         # Take the dipole out of the data
-        data_final = data - G * dipole
+        data_final = (data - p[0]) / p[1] - dipole
 
 
         # Apply mask
