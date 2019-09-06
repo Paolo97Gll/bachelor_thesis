@@ -7,15 +7,24 @@
 # this is necessary to make a correct classification of the glitches.
 
 
-import healpy as hp
+# Reading files
+from astropy.io import fits
+import h5py
+# Scientific computing
 import numpy as np
 import pandas as pd
+from astropy.coordinates import spherical_to_cartesian
+# Plot
 import matplotlib.pyplot as plt
+import seaborn as sns
+sns.set()
+# Other
 import os
-from astropy.io import fits
-import statistics as sts
-from scipy.linalg import lstsq
+import time as pytime
+import subprocess
 
+
+print("START CLEANING\n")
 
 for OPERATING_DAY in range(91,106):
 
@@ -33,10 +42,10 @@ for OPERATING_DAY in range(91,106):
 
         # Model constants and parameters
 
-        FILENAME_PTG = "/mnt/d/Tesi/data/HFI-143/HFI_TOI_143-PTG_R2.01_OD0" + OPERATING_DAY + ".fits"
-        FILENAME_RAW = "/mnt/d/Tesi/data/HFI-143/HFI_TOI_143-RAW_R2.00_OD0" + OPERATING_DAY + ".fits"
-        FILENAME_SCI = "/mnt/d/Tesi/data/HFI-143/HFI_TOI_143-SCI_R2.00_OD0" + OPERATING_DAY + ".fits"
-        DIR = "ris/OD" + OPERATING_DAY + "_" + DETECTOR
+        FILENAME_PTG = "D:/Tesi/data/HFI-143/HFI_TOI_143-PTG_R2.01_OD0" + OPERATING_DAY + ".fits"
+        FILENAME_RAW = "D:/Tesi/data/HFI-143/HFI_TOI_143-RAW_R2.00_OD0" + OPERATING_DAY + ".fits"
+        FILENAME_SCI = "D:/Tesi/data/HFI-143/HFI_TOI_143-SCI_R2.00_OD0" + OPERATING_DAY + ".fits"
+        DIR = "ris"
 
         with fits.open(FILENAME_SCI) as f:
             T_CMB = f[DETECTOR].header["T_CMB"]
@@ -61,8 +70,8 @@ for OPERATING_DAY in range(91,106):
                                                            np.sin(SOLSYSDIR_ECL_COLAT_RAD) * np.cos(SOLSYSDIR_ECL_LONG_RAD),
                                                            np.sin(SOLSYSDIR_ECL_COLAT_RAD) * np.sin(SOLSYSDIR_ECL_LONG_RAD),
                                                            np.cos(SOLSYSDIR_ECL_COLAT_RAD),
-                                                           ]
-                                                          )
+                                                          ]
+                                                         )
 
 
         # Cleaning model
@@ -95,9 +104,11 @@ for OPERATING_DAY in range(91,106):
             data_raw = f[DETECTOR].data.field("RAW")
 
         # Data
+        data_raw_corrected = np.array(data_raw)
+        data_raw_corrected[1::2] = - data_raw_corrected[1::2]
         # Moving average
-        data_ma = pd.Series(np.abs(data_raw)).rolling(window=MA_LENGTH).mean().iloc[MA_LENGTH-1:].values
-        data = (np.abs(data_raw[:NEW_LENGTH]) - data_ma) / MA_LENGTH
+        data_ma = pd.Series(data_raw_corrected).rolling(window=MA_LENGTH).mean().iloc[MA_LENGTH-1:].values
+        data = (data_raw_corrected[:NEW_LENGTH] - data_ma) / MA_LENGTH
         # Calibrate values
         data = (data - ZERO_POINT) / CALIBRATION_CONSTANT
 
@@ -115,27 +126,20 @@ for OPERATING_DAY in range(91,106):
         # Open PTG data and load the "THETA" and "PHI" fields
         with fits.open(FILENAME_PTG) as inpf:
             theta, phi = [inpf[DETECTOR].data.field(x) for x in ("THETA", "PHI")]
+
         # Get the directions (vectors) directly from the angular coordinates
-        directions = hp.ang2vec(theta, phi)[:NEW_LENGTH]
+        dir_x, dir_y, dir_z = np.array(spherical_to_cartesian(np.ones(MAIN_LENGTH),(np.pi/2-theta),(phi)))
         # Compute dipole temperature
-        dipole = get_dipole_temperature(directions)
+        dipole = get_dipole_temperature(np.concatenate((dir_x[:, np.newaxis], dir_y[:, np.newaxis], dir_z[:, np.newaxis]), axis=1)[:NEW_LENGTH])
 
 
         # Remove galactic dipole signal
 
-        # Calculate the medians for the data and the dipole temperatures
-        median_data = sts.median(data)
-        median_dipole = sts.median(dipole)
-        # Rescale accordingly
-        data = data - median_data
-        dipole = dipole - median_dipole
-
-        # Evaluate the G factor
-        M = dipole[:, np.newaxis]*[0, 1]
-        p, res, rnk, s = lstsq(M, data)
+        # Make the regression
+        sol_m, sol_q = np.linalg.lstsq(dipole[:, np.newaxis] * [1, 0] + [0, 1], data, rcond=None)[0]
 
         # Take the dipole out of the data
-        data_final = (data - p[0]) / p[1] - dipole
+        data_final = data - (dipole * sol_m + sol_q)
 
 
         # Apply mask
@@ -152,8 +156,9 @@ for OPERATING_DAY in range(91,106):
         if not os.path.exists(DIR):
             os.makedirs(DIR)
 
-        np.savetxt(DIR + "/FINAL-cleaned_time.txt", time_cleaned)
-        np.savetxt(DIR + "/FINAL-cleaned_data.txt", data_cleaned)
+        # Save time_cleaned and data_cleaned as Pandas DataFrame
+        with pd.HDFStore(DIR + "/OUT-cleaned.h5") as out_file:
+            out_file.put(OPERATING_DAY + "/" + DETECTOR, pd.DataFrame({"time_cleaned": time_cleaned, "data_cleaned": data_cleaned}, columns=["time_cleaned", "data_cleaned"]))
 
 
         # Plot data
@@ -161,29 +166,65 @@ for OPERATING_DAY in range(91,106):
         if not os.path.exists(DIR + "/plots"):
             os.makedirs(DIR + "/plots")
 
-        # Comparison between RAW data and cleaned data - first `30s`
+        # Galactic dipole
+        index = time < 120.
+        plt.plot(time[index], dipole[index])
+        plt.xlabel("Time [s]")
+        plt.ylabel("Temperature [K]")
+        plt.title("Dipole temperature (OD" + OPERATING_DAY + "_" + DETECTOR  + ")")
+        plt.savefig(DIR + "/plots/OD" + OPERATING_DAY + "_" + DETECTOR + "-dipole_example.png", dpi=600)
+        plt.close()
 
+        # Linear regression
+        index = time < 120.
+        plt.plot(dipole[index], data[index])
+        x_linreg = np.linspace(-0.0033, 0.003, 10)
+        plt.plot(x_linreg, x_linreg * sol_m + sol_q)
+        plt.ylim(-10, 10)
+        plt.title("Correlation between galactic dipole and data (OD" + OPERATING_DAY + "_" + DETECTOR  + ")")
+        plt.xlabel("Dipole [K]")
+        plt.ylabel("Data [T_cmb V / W]")
+        plt.legend(["dipole-data", "Linear regression"])
+        plt.savefig(DIR + "/plots/OD" + OPERATING_DAY + "_" + DETECTOR + "-dipole_data_correlation.png", dpi=600)
+        plt.close()
+
+        # Comparison between RAW data and cleaned data
         index = time < 30.
-        plt.plot(time[index], data[index], marker='.', linestyle='none', alpha=0.9, label="with dipole")
-        plt.plot(time[index], data_final[index], marker='.', linestyle='none', alpha=0.9, label="without dipole")
-        #plt.plot(time[index], dipole[index]*10**-4)
-        plt.title("Before and after dipole removal signal (without mask)")
+        plt.plot(time[index], data[index], marker='.', linestyle='none', alpha=0.8, label="with dipole")
+        plt.plot(time[index], data_final[index], marker='.', linestyle='none', alpha=0.8, label="without dipole")
+        plt.ylim(-5,20)
+        plt.title("Before and after dipole removal signal (without mask) (OD" + OPERATING_DAY + "_" + DETECTOR  + ")")
         plt.xlabel("Time [s]")
         plt.ylabel("Signal [V]")
         plt.legend(["Raw data", "Cleaned data"])
-        axes = plt.gca()
-        axes.set_ylim([-5,25])
-        plt.savefig(DIR + "/plots/first-data_raw_signal.png", dpi=600)
+        plt.savefig(DIR + "/plots/OD" + OPERATING_DAY + "_" + DETECTOR + "-first30s-data_raw_signal.png", dpi=600)
+        plt.close()
+        index = time_cleaned < 30.
+        plt.plot(time_cleaned[index], holed_raw[index], marker='.', linestyle='none', alpha=0.8, label="with dipole")
+        plt.plot(time_cleaned[index], data_cleaned[index], marker='.', linestyle='none', alpha=0.8, label="without dipole")
+        plt.ylim(-5,20)
+        plt.title("Before and after dipole removal signal (with mask) (OD" + OPERATING_DAY + "_" + DETECTOR  + ")")
+        plt.xlabel("Time [s]")
+        plt.ylabel("Signal [V]")
+        plt.legend(["Raw data", "Cleaned data"])
+        plt.savefig(DIR + "/plots/OD" + OPERATING_DAY + "_" + DETECTOR + "-first30s-data_cleaned_signal.png", dpi=600)
         plt.close()
 
-        index = time_cleaned < 30.
-        plt.plot(time_cleaned[index], holed_raw[index], marker='.', linestyle='none',  alpha=0.9, label="with dipole")
-        plt.plot(time_cleaned[index], data_cleaned[index], marker='.', linestyle='none', alpha=0.9, label="without dipole")
-        plt.title("Before and after dipole removal signal (with mask)")
-        plt.xlabel("Time [s]")
-        plt.ylabel("Signal [V]")
-        plt.legend(["Raw data", "Cleaned data"])
-        axes = plt.gca()
-        axes.set_ylim([-5,25])
-        plt.savefig(DIR + "/plots/first-data_cleaned_signal.png", dpi=600)
-        plt.close()
+
+# Write attributes
+with h5py.File(DIR + "/OUT-cleaned.h5") as f:
+    f.attrs["TITLE"] = np.string_("Data cleaning output file")
+    f.attrs["VERSION"] = np.string_("Date: " + pytime.asctime() + " | Script: clean_data-moving_average-ALL.py | GitHub commit ID: " + subprocess.run(["git", "log", "-1", "--format=%H"], stdout=subprocess.PIPE).stdout.decode("ASCII").rstrip())
+
+
+print("\nFINISHED")
+
+
+# Print a summary
+with pd.HDFStore(DIR + "/OUT-cleaned.h5", "r") as out_file:
+    print(out_file.info())
+# Read attributes to verify
+print("\nAttributes:")
+with h5py.File(DIR + "/OUT-cleaned.h5", "r") as f:
+    print(f.attrs["TITLE"])
+    print(f.attrs["VERSION"])
