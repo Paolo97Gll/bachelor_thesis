@@ -9,7 +9,8 @@
 
 # Suppress NaturalNameWarning raised by HDFStore
 import warnings
-warnings.filterwarnings("ignore", category=NaturalNameWarning)
+import tables
+warnings.filterwarnings("ignore", category=tables.NaturalNameWarning)
 
 
 # Reading files
