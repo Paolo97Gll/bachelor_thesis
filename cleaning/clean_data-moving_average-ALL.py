@@ -220,10 +220,10 @@ for OPERATING_DAY in range(91,106):
 # Write attributes
 with h5py.File(DIR + "/OUT-cleaned.h5") as f:
     f.attrs["TITLE"] = np.string_("Data cleaning output file")
-    f.attrs["VERSION"] = np.string_("Date: " + pytime.asctime() + " | Script: clean_data-moving_average-ALL.py | GitHub commit ID: " + subprocess.run(["git", "log", "-1", "--format=%H"], stdout=subprocess.PIPE).stdout.decode("ASCII").rstrip())
+    f.attrs["VERSION"] = np.string_("Date: " + pytime.asctime() + " | Script name: clean_data-moving_average-ALL.py | Script commit ID: " + subprocess.run(["git", "log", "-1", "--format=%H", "clean_data-moving_average-ALL.py"], stdout=subprocess.PIPE).stdout.decode("ASCII").rstrip())
 
 
-print("\nFINISHED")
+print("\nFINISHED\n")
 
 
 # Print a summary
