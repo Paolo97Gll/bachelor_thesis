@@ -7,6 +7,11 @@
 # this is necessary to make a correct classification of the glitches.
 
 
+# Suppress NaturalNameWarning raised by HDFStore
+import warnings
+warnings.filterwarnings("ignore", category=NaturalNameWarning)
+
+
 # Reading files
 from astropy.io import fits
 import h5py
