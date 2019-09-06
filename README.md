@@ -2,8 +2,9 @@
 
 _Machine learning techniques for CMB glitch detection in Planck/HFI data._
 
-
 ## TODO and roadmap
+
+More information on the equations used and the procedures followed are included in the notebooks comments.
 
 - [x] **DATA CLEANING**, folder `cleaning` : clean data from various effects. Since the purpose of this thesis is to detect glitches and not to clean up the RAW signal from the galactic signal and other signals, all points that are on the galactic plane or coincide with a point source can be ignored without any consequences. The effects to be cleaned up are:
 
