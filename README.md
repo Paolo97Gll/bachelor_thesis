@@ -29,11 +29,13 @@ More information on the equations used and the procedures followed are included 
 	The cleaned data are saved with the [HDF5](https://www.hdfgroup.org/) format: it's faster, lighter and allow to save attributes like the title and the version of the code used.
 	
 - [ ] **DATA CLASSIFICATION**, folder `classification` ; classify data for the machine learning algorithm trainig.
+
 	- [x] **Create code**; features:
 		- Load and save status in a toml file, so you don't have to classify all the data at the same time.
 		- Save classified data in HDF5 format, containing also attributes like OD and detector, date of classification and git commit of the script.
 		- Save beautiful plots.
 		- Reset everything (turn cell from raw to code).
+		
 	- [ ] **Classify data**; number of data to be classified: 2000 (1000 with a glitch, 1000 without it).
 
 
