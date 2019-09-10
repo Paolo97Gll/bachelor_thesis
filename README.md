@@ -1,6 +1,6 @@
 # bachelor_thesis
 
-_Machine learning techniques for CMB glitch detection in Planck/HFI data._
+_Machine learning techniques for CMB glitch detection in Planck/HFI data at 143 GHz._
 
 ## TODO and roadmap
 
@@ -14,7 +14,7 @@ More information on the equations used and the procedures followed are included 
 	
 	The steps to be performed are:
 	
-	- [x] **Mask preview**; since the SCI data follow the satellite data collection, the preview of the total mask cannot be performed starting from that data. However, the PLA provides the masks used, called `COM_Mask_PCCS-143-zoneMask_2048_R2.01` and `HFI_Mask_PointSrc_2048_R2.00`: using these masks, in HEALPix format, it's possible to have a global view of the total mask.
+	- [x] **Mask preview**; since the SCI data follow the satellite data collection, the preview of the total mask cannot be performed starting from that data. However, the [PLA](http://pla.esac.esa.int/pla/#home) provides the masks used, called `COM_Mask_PCCS-143-zoneMask_2048_R2.01` and `HFI_Mask_PointSrc_2048_R2.00`: using these masks, in [HEALPix](https://healpix.sourceforge.io/) format, it's possible to have a global view of the total mask.
 	
 	- [x] **Clean data** by removing:
 		- _Galactic dipole_ using the theoretical equation reported [here](https://www.aanda.org/articles/aa/abs/2014/11/aa21527-13/aa21527-13.html) (section 3.1, point 1).
@@ -26,15 +26,17 @@ More information on the equations used and the procedures followed are included 
 			```
 			Data with these flags must be discarded.
 			
-	The cleaned data are saved with the [HDF5](https://www.hdfgroup.org/) format: it's faster, lighter and allow to save attributes like the title and the version of the code used.
+	Cleaned data are saved in [HDF5](https://www.hdfgroup.org/) format: it's faster, lighter and allow to save attributes like the title and the version of the code used.
 	
 - [ ] **DATA CLASSIFICATION**, folder `classification` ; classify data for the machine learning algorithm trainig.
 
 	- [x] **Create code**; features:
-		- Load and save status in a toml file, so you don't have to classify all the data at the same time.
-		- Save classified data in HDF5 format, containing also attributes like OD and detector, date of classification and git commit of the script.
+	
+		- Load and save status in a [toml](https://github.com/toml-lang/toml) formatted file, so you don't have to classify all the data at the same time.
 		- Save beautiful plots.
 		- Reset everything (turn cell from raw to code).
+		
+		As cleaned data, classified data are saved in HDF5 format, containing also attributes like OD and detector, date of classification and git commit of the script.
 		
 	- [ ] **Classify data**; number of data to be classified: 2000 (1000 with a glitch, 1000 without it).
 
