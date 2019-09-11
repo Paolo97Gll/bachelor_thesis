@@ -1,4 +1,4 @@
-N = 0
-N_GLITCH = 0
-N_LONG = 0
-N_NO_GLITCH = 0
+N = 18
+N_GLITCH = 8
+N_MULTI = 1
+N_NO_GLITCH = 9
