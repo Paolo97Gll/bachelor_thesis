@@ -1,6 +1,6 @@
 # bachelor_thesis
 
-_Machine learning techniques for CMB glitch detection in Planck/HFI data at 143 GHz._
+_Machine learning techniques for glitch detection in Planck/HFI data at 143 GHz._
 
 ## TODO and roadmap
 
