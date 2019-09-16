@@ -28,7 +28,7 @@ More information on the equations used and the procedures followed are included 
 			
 	Cleaned data are saved in [HDF5](https://www.hdfgroup.org/) format: it's faster, lighter and allow to save attributes like the title and the version of the code used.
 	
-- [ ] **DATA CLASSIFICATION**, folder `classification` ; classify data for the machine learning algorithm trainig.
+- [x] **DATA CLASSIFICATION**, folder `classification` ; classify data for the machine learning algorithm trainig.
 
 	- [x] **Create code**; features:
 	
@@ -38,7 +38,7 @@ More information on the equations used and the procedures followed are included 
 		
 		As cleaned data, classified data are saved in HDF5 format, containing also attributes like OD and detector, date of classification and git commit of the script.
 		
-	- [ ] **Classify data**; number of data to be classified: 2000 (1000 with a glitch, 1000 without it).
+	- [x] **Classify data**; number of data to be classified: 2000 (1000 with a glitch, 1000 without it).
 
 
 ## Resources
