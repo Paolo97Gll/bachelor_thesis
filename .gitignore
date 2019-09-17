@@ -18,3 +18,6 @@ SyncToy*
 
 # Jupyther checkpoints
 .ipynb_checkpoints
+
+# Telegram Bot ID
+telegram_bot_id.toml
