@@ -42,13 +42,13 @@ More information on the equations used and the procedures followed are included 
 
 - [ ] **BUILD MACHINE LEARNING MODELS**, folder `ml_models` : train and test various machine learning algorithms. Candidates algorithms are:
 	
-	- _C-Support Vector Classification_ (from scikit-learn)
+	- [ ] **C-Support Vector Classification** (from scikit-learn), folder `ml_models/SVC` .
 	
-	- _Random Forest Classifier_ (from scikit-learn)
+	- [ ] **Random Forest Classifier** (from scikit-learn)
 	
-	- _K-Nearest Neighbors Classifier_ (from scikit-learn)
+	- [ ] **K-Nearest Neighbors Classifier** (from scikit-learn)
 	
-	- _Light Gradient Boosting Machine_ (from lightgbm, Microsoft)
+	- [ ] **Light Gradient Boosting Machine** (from lightgbm, Microsoft)
 
 
 ## Resources
