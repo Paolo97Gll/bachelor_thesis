@@ -72,6 +72,9 @@ telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start no multi glitch part.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
+with open('SVC_py_out.txt', mode='a') as f:
+    print('Start no multi glitch part.', file=f)
+
 
 # ## Preparation
 #
@@ -129,6 +132,9 @@ telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start k-fold validation.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
+with open('SVC_py_out.txt', mode='a') as f:
+    print('k-fold validation.', file=f)
+
 
 # In[ ]:
 
@@ -220,6 +226,9 @@ telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start data augmentation part.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
+with open('SVC_py_out.txt', mode='a') as f:
+    print('Start data augmentation part.', file=f)
+
 
 # In[ ]:
 
@@ -243,6 +252,9 @@ for i in range(1,100):
 telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start k-fold validation.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
+
+with open('SVC_py_out.txt', mode='a') as f:
+    print('k-fold validation.', file=f)
 
 
 # In[ ]:
@@ -333,6 +345,9 @@ telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start Bagging Classifier k-fold validation.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
+with open('SVC_py_out.txt', mode='a') as f:
+    print('Bagging Classifier k-fold validation.', file=f)
+
 
 # In[ ]:
 
@@ -386,6 +401,9 @@ telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End data augmentation part.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
+with open('SVC_py_out.txt', mode='a') as f:
+    print('End data augmentation part.', file=f)
+
 
 # In[ ]:
 
@@ -393,6 +411,9 @@ requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMe
 telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End no multi glitch part.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
+
+with open('SVC_py_out.txt', mode='a') as f:
+    print('End no multi glitch part.', file=f)
 
 
 # # YES MULTI GLITCH
@@ -403,6 +424,9 @@ requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMe
 telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start yes multi glitch part.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
+
+with open('SVC_py_out.txt', mode='a') as f:
+    print('Start yes multi glitch part.', file=f)
 
 
 # ## Preparation
@@ -444,6 +468,9 @@ telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start k-fold validation.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
+with open('SVC_py_out.txt', mode='a') as f:
+    print('k-fold validation.', file=f)
+
 
 # In[ ]:
 
@@ -535,6 +562,9 @@ telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start data augmentation part.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
+with open('SVC_py_out.txt', mode='a') as f:
+    print('Start data augmentation part.', file=f)
+
 
 # In[ ]:
 
@@ -558,6 +588,9 @@ for i in range(1,100):
 telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start k-fold validation.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
+
+with open('SVC_py_out.txt', mode='a') as f:
+    print('k-fold validation.', file=f)
 
 
 # In[ ]:
@@ -648,6 +681,9 @@ telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start Bagging Classifier k-fold validation.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
+with open('SVC_py_out.txt', mode='a') as f:
+    print('Bagging Classifier k-fold validation.', file=f)
+
 
 # In[ ]:
 
@@ -701,6 +737,9 @@ telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End data augmentation part.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
+with open('SVC_py_out.txt', mode='a') as f:
+    print('End data augmentation part.', file=f)
+
 
 # In[ ]:
 
@@ -708,3 +747,6 @@ requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMe
 telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End yes multi glitch part.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
+
+with open('SVC_py_out.txt', mode='a') as f:
+    print('End yes multi glitch part.', file=f)
