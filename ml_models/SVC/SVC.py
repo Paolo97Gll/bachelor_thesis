@@ -51,6 +51,10 @@ import time
 import requests
 import threading
 
+# Globally redirect print statements to stdout
+import sys
+sys.stdout = open('SVC_py_out.txt', mode='w')
+
 # In[ ]:
 
 
