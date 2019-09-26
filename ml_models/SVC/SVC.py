@@ -51,6 +51,13 @@ import time
 import requests
 import threading
 
+# In[ ]:
+
+
+telegram_bot_id = toml.load('../telegram_bot_id.toml')
+params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] ####################'}
+requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
+
 
 # # NO MULTI GLITCH
 
