@@ -51,9 +51,9 @@ import time
 import requests
 import threading
 
-# Globally redirect print statements to stdout
-import sys
-sys.stdout = open('SVC_py_out.txt', mode='w')
+
+with open('SVC_py_out.txt', mode='w') as f:
+    pass
 
 # In[ ]:
 
@@ -178,7 +178,8 @@ for train_index, test_index in rkf.split(data, target):
 for thread in threads:
     thread.join()
 # Print final score
-print('Average score (k-fold):', scores.mean(), '+-', scores.std())
+with open('SVC_py_out.txt', mode='a') as f:
+    print('Average score (k-fold):', scores.mean(), '+-', scores.std(), file=f)
 
 
 ## STRATIFIED K-FOLD
@@ -194,7 +195,8 @@ for train_index, test_index in rskf.split(data, target):
 for thread in threads:
     thread.join()
 # Print final score
-print('Average score (Stratified k-fold):', scores.mean(), '+-', scores.std())
+with open('SVC_py_out.txt', mode='a') as f:
+    print('Average score (Stratified k-fold):', scores.mean(), '+-', scores.std(), file=f)
 
 
 # In[ ]:
@@ -291,7 +293,8 @@ for train_index, test_index in rkf.split(data_aug, target_aug):
 for thread in threads:
     thread.join()
 # Print final score
-print('Average score (k-fold):', scores.mean(), '+-', scores.std())
+with open('SVC_py_out.txt', mode='a') as f:
+    print('Average score (k-fold):', scores.mean(), '+-', scores.std(), file=f)
 
 
 ## STRATIFIED K-FOLD
@@ -307,7 +310,8 @@ for train_index, test_index in rskf.split(data_aug, target_aug):
 for thread in threads:
     thread.join()
 # Print final score
-print('Average score (Stratified k-fold):', scores.mean(), '+-', scores.std())
+with open('SVC_py_out.txt', mode='a') as f:
+    print('Average score (Stratified k-fold):', scores.mean(), '+-', scores.std(), file=f)
 
 
 # In[ ]:
@@ -348,7 +352,8 @@ for train_index, test_index in rkf.split(data_aug, target_aug):
     clf.fit(X_train, y_train)
     scores_rkf = np.append(scores_rkf, clf.score(X_test, y_test))
 # Print final score
-print('Average score (k-fold):', scores_rkf.mean(), '+-', scores_rkf.std())
+with open('SVC_py_out.txt', mode='a') as f:
+    print('Average score (k-fold):', scores_rkf.mean(), '+-', scores_rkf.std(), file=f)
 
 
 ## STRATIFIED K-FOLD
@@ -362,7 +367,8 @@ for train_index, test_index in rskf.split(data_aug, target_aug):
     clf.fit(X_train, y_train)
     scores_rskf = np.append(scores_rskf, clf.score(X_test, y_test))
 # Print final score
-print('Average score (Stratified k-fold):', scores_rskf.mean(), '+-', scores_rskf.std())
+with open('SVC_py_out.txt', mode='a') as f:
+    print('Average score (Stratified k-fold):', scores_rskf.mean(), '+-', scores_rskf.std(), file=f)
 
 
 # In[ ]:
@@ -487,7 +493,8 @@ for train_index, test_index in rkf.split(data, target):
 for thread in threads:
     thread.join()
 # Print final score
-print('Average score (k-fold):', scores.mean(), '+-', scores.std())
+with open('SVC_py_out.txt', mode='a') as f:
+    print('Average score (k-fold):', scores.mean(), '+-', scores.std(), file=f)
 
 
 ## STRATIFIED K-FOLD
@@ -503,7 +510,8 @@ for train_index, test_index in rskf.split(data, target):
 for thread in threads:
     thread.join()
 # Print final score
-print('Average score (Stratified k-fold):', scores.mean(), '+-', scores.std())
+with open('SVC_py_out.txt', mode='a') as f:
+    print('Average score (Stratified k-fold):', scores.mean(), '+-', scores.std(), file=f)
 
 
 # In[ ]:
@@ -600,7 +608,8 @@ for train_index, test_index in rkf.split(data_aug, target_aug):
 for thread in threads:
     thread.join()
 # Print final score
-print('Average score (k-fold):', scores.mean(), '+-', scores.std())
+with open('SVC_py_out.txt', mode='a') as f:
+    print('Average score (k-fold):', scores.mean(), '+-', scores.std(), file=f)
 
 
 ## STRATIFIED K-FOLD
@@ -616,7 +625,8 @@ for train_index, test_index in rskf.split(data_aug, target_aug):
 for thread in threads:
     thread.join()
 # Print final score
-print('Average score (Stratified k-fold):', scores.mean(), '+-', scores.std())
+with open('SVC_py_out.txt', mode='a') as f:
+    print('Average score (Stratified k-fold):', scores.mean(), '+-', scores.std(), file=f)
 
 
 # In[ ]:
@@ -657,7 +667,8 @@ for train_index, test_index in rkf.split(data_aug, target_aug):
     clf.fit(X_train, y_train)
     scores_rkf = np.append(scores_rkf, clf.score(X_test, y_test))
 # Print final score
-print('Average score (k-fold):', scores_rkf.mean(), '+-', scores_rkf.std())
+with open('SVC_py_out.txt', mode='a') as f:
+    print('Average score (k-fold):', scores_rkf.mean(), '+-', scores_rkf.std(), file=f)
 
 
 ## STRATIFIED K-FOLD
@@ -671,7 +682,8 @@ for train_index, test_index in rskf.split(data_aug, target_aug):
     clf.fit(X_train, y_train)
     scores_rskf = np.append(scores_rskf, clf.score(X_test, y_test))
 # Print final score
-print('Average score (Stratified k-fold):', scores_rskf.mean(), '+-', scores_rskf.std())
+with open('SVC_py_out.txt', mode='a') as f:
+    print('Average score (Stratified k-fold):', scores_rskf.mean(), '+-', scores_rskf.std(), file=f)
 
 
 # In[ ]:
