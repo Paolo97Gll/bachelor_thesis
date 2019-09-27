@@ -45,7 +45,7 @@ n_estimators = 4
 max_samples = 0.95
 
 # Reset out file
-with open('SVC_py_out.txt', mode='w') as f:
+with open('ris/OUT-score_alglorithms.txt', mode='w') as f:
     pass
 
 telegram_bot_id = toml.load('../telegram_bot_id.toml')
@@ -61,7 +61,7 @@ requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMe
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start no multi glitch part.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
-with open('SVC_py_out.txt', mode='a') as f:
+with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('Start no multi glitch part.', file=f)
 
 # Load data
@@ -99,7 +99,7 @@ best_C = 0.8
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start k-fold validation.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
-with open('SVC_py_out.txt', mode='a') as f:
+with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('k-fold validation.', file=f)
 
 # Multithread function
@@ -144,7 +144,7 @@ for thread in threads:
     thread.join()
 
 # Print final score
-with open('SVC_py_out.txt', mode='a') as f:
+with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('Average score:', scores.mean(), '+-', scores.std() / np.sqrt(n_splits), file=f)
 
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End k-fold validation.'}
@@ -159,7 +159,7 @@ requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMe
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start data augmentation part.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
-with open('SVC_py_out.txt', mode='a') as f:
+with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('Start data augmentation part.', file=f)
 
 
@@ -170,7 +170,7 @@ with open('SVC_py_out.txt', mode='a') as f:
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start k-fold validation.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
-with open('SVC_py_out.txt', mode='a') as f:
+with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('k-fold validation.', file=f)
 
 # Multithread function
@@ -237,7 +237,7 @@ for thread in threads:
     thread.join()
 
 # Print final score
-with open('SVC_py_out.txt', mode='a') as f:
+with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('Average score:', scores.mean(), '+-', scores.std() / np.sqrt(n_splits), file=f)
     print('Average score (augmented):', scores_aug.mean(), '+-', scores_aug.std() / np.sqrt(n_splits), file=f)
 
@@ -252,7 +252,7 @@ requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMe
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start Bagging Classifier k-fold validation.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
-with open('SVC_py_out.txt', mode='a') as f:
+with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('Bagging Classifier k-fold validation.', file=f)
 
 # Stratified k-fold
@@ -293,7 +293,7 @@ for train_index, test_index in rskf.split(data, target):
     scores_aug = np.append(scores_aug, train_score_aug)
     
 # Print final score
-with open('SVC_py_out.txt', mode='a') as f:
+with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('Average score:', scores.mean(), '+-', scores.std() / np.sqrt(n_splits), file=f)
     print('Average score (augmented):', scores_aug.mean(), '+-', scores_aug.std() / np.sqrt(n_splits), file=f)
 
@@ -303,13 +303,13 @@ requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMe
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End data augmentation part.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
-with open('SVC_py_out.txt', mode='a') as f:
+with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('End data augmentation part.', file=f)
 
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End no multi glitch part.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
-with open('SVC_py_out.txt', mode='a') as f:
+with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('End no multi glitch part.', file=f)
 
 
@@ -321,7 +321,7 @@ with open('SVC_py_out.txt', mode='a') as f:
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start yes multi glitch part.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
-with open('SVC_py_out.txt', mode='a') as f:
+with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('\nStart yes multi glitch part.', file=f)
 
 # Load data
@@ -342,7 +342,7 @@ best_C = 1.45
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start k-fold validation.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
-with open('SVC_py_out.txt', mode='a') as f:
+with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('k-fold validation.', file=f)
 
 # Multithread function
@@ -387,7 +387,7 @@ for thread in threads:
     thread.join()
     
 # Print final score
-with open('SVC_py_out.txt', mode='a') as f:
+with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('Average score:', scores.mean(), '+-', scores.std() / np.sqrt(n_splits), file=f)
 
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End k-fold validation.'}
@@ -402,7 +402,7 @@ requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMe
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start data augmentation part.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
-with open('SVC_py_out.txt', mode='a') as f:
+with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('Start data augmentation part.', file=f)
 
 
@@ -413,7 +413,7 @@ with open('SVC_py_out.txt', mode='a') as f:
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start k-fold validation.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
-with open('SVC_py_out.txt', mode='a') as f:
+with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('k-fold validation.', file=f)
 
 # Multithread function
@@ -480,7 +480,7 @@ for thread in threads:
     thread.join()
     
 # Print final score
-with open('SVC_py_out.txt', mode='a') as f:
+with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('Average score:', scores.mean(), '+-', scores.std() / np.sqrt(n_splits), file=f)
     print('Average score (augmented):', scores_aug.mean(), '+-', scores_aug.std() / np.sqrt(n_splits), file=f)
 
@@ -495,7 +495,7 @@ requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMe
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start Bagging Classifier k-fold validation.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
-with open('SVC_py_out.txt', mode='a') as f:
+with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('Bagging Classifier k-fold validation.', file=f)
 
 # Stratified k-fold
@@ -536,7 +536,7 @@ for train_index, test_index in rskf.split(data, target):
     scores_aug = np.append(scores_aug, train_score_aug)
     
 # Print final score
-with open('SVC_py_out.txt', mode='a') as f:
+with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('Average score:', scores.mean(), '+-', scores.std() / np.sqrt(n_splits), file=f)
     print('Average score (augmented):', scores_aug.mean(), '+-', scores_aug.std() / np.sqrt(n_splits), file=f)
 
@@ -546,13 +546,13 @@ requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMe
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End data augmentation part.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
-with open('SVC_py_out.txt', mode='a') as f:
+with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('End data augmentation part.', file=f)
 
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End yes multi glitch part.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
-with open('SVC_py_out.txt', mode='a') as f:
+with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('End yes multi glitch part.', file=f)
 
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] ####################'}
