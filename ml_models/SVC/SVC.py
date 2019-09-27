@@ -1,25 +1,19 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
-# # SVC: C-Support Vector Classification
-#
-# A Support Vector Machine (SVM) is a discriminative classifier formally defined by a separating hyperplane. In other words, given labeled training data (supervised learning), the algorithm outputs an optimal hyperplane which categorizes new examples. In two dimentional space this hyperplane is a line dividing a plane in two parts where in each class lay in either side. (from [here](https://medium.com/machine-learning-101/chapter-2-svm-support-vector-machine-theory-f0812effc72))
+# SVC: C-Support Vector Classification
+# Score SVC alglorithms (no and yes multi glitches) with simple data, data augmentation.
+
+
+#######################################################################
 
 
 # Reading files
-import h5py
 import toml
 
 # Scientific computing
 import numpy as np
 import pandas as pd
-from scipy import interp
-
-# Plot
-import matplotlib.pyplot as plt
-import seaborn as sns
-sns.set()
-#sns.set_context('paper')
 
 # Machine Learning
 # Model
@@ -27,66 +21,50 @@ from sklearn.svm import SVC
 # Ensemble
 from sklearn.ensemble import BaggingClassifier
 # Splitter Classes
-from sklearn.model_selection import KFold
-from sklearn.model_selection import RepeatedKFold
-from sklearn.model_selection import StratifiedKFold
 from sklearn.model_selection import RepeatedStratifiedKFold
-# Splitter Functions
-from sklearn.model_selection import train_test_split
-from sklearn.model_selection import ShuffleSplit
-# Hyper-parameter optimizers
-from sklearn.model_selection import GridSearchCV
-from sklearn.model_selection import RandomizedSearchCV
-# Model validation
-from sklearn.model_selection import learning_curve
-# Training metrics
-from sklearn.metrics import classification_report
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import roc_curve
-from sklearn.metrics import auc
 
 # Other
-import os
-import time
 import requests
 import threading
 
 
+#######################################################################
+
+
+# Multithreading
+maxthreads = 4
+sema = threading.Semaphore(value=maxthreads)
+c = threading.Condition()
+
+# k-fold parameters
+n_splits = 5
+n_repeats = 6
+
+# Bagging Classifier parameters
+n_estimators = 4
+max_samples = 0.95
+
+# Reset out file
 with open('SVC_py_out.txt', mode='w') as f:
     pass
-
-# In[ ]:
-
 
 telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] ####################'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
 
-# # NO MULTI GLITCH
+#######################################################################
+# NO MULTI GLITCH
+#######################################################################
 
-# In[ ]:
 
-
-telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start no multi glitch part.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
 with open('SVC_py_out.txt', mode='a') as f:
     print('Start no multi glitch part.', file=f)
 
-
-# ## Preparation
-#
-# Load data and target from `classification/ris/OUT-classified-merged.h5` and load into numpy arrays.
-#
-# **Label `0` = NO GLITCH**
-#
-# **Label `1` = GLITCH**
-
-# In[ ]:
-
-
+# Load data
 first_cycle = True
 with pd.HDFStore('../../classification/ris/OUT-classified-merged.h5', mode='r') as in_data:
     for group in ['GLITCH', 'NO_GLITCH']:
@@ -108,41 +86,23 @@ with pd.HDFStore('../../classification/ris/OUT-classified-merged.h5', mode='r') 
             else:
                 print("ERROR.")
 
-
-# ## Best training
-#
-# Initialize best hyper-parameters founded.
-
-# In[ ]:
-
-
+# Best training parameters
 best_kernel = 'rbf'
 best_gamma = 0.0145
 best_C = 0.8
 
 
-# ### Cross validation
-#
-# Use k-fold to make a cross validation of the model.
-
-# In[ ]:
+###################
+# Cross validation
 
 
-telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start k-fold validation.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
 with open('SVC_py_out.txt', mode='a') as f:
     print('k-fold validation.', file=f)
 
-
-# In[ ]:
-
-
-maxthreads = 4
-sema = threading.Semaphore(value=maxthreads)
-c = threading.Condition()
-
+# Multithread function
 def thread_function(train_index, test_index):
     # Acquire a semaphore slot
     sema.acquire()
@@ -162,35 +122,17 @@ def thread_function(train_index, test_index):
     c.release()
     # Fit the model
     clf.fit(X_train, y_train)
+    train_score = clf.score(X_test, y_test)
     # Save the score
     c.acquire()
-    scores = np.append(scores, clf.score(X_test, y_test))
+    scores = np.append(scores, train_score)
     c.notify_all()
     c.release()
     # Release the semaphore slot
     sema.release()
 
-
-## K-FOLD
-
-rkf = RepeatedKFold(n_splits=5, n_repeats=10, random_state=None)
-scores = np.array([])
-threads = []
-# Make k-fold CV
-for train_index, test_index in rkf.split(data, target):
-    thread = threading.Thread(target=thread_function, args=(train_index, test_index))
-    threads.append(thread)
-    thread.start()
-for thread in threads:
-    thread.join()
-# Print final score
-with open('SVC_py_out.txt', mode='a') as f:
-    print('Average score (k-fold):', scores.mean(), '+-', scores.std(), file=f)
-
-
-## STRATIFIED K-FOLD
-
-rskf = RepeatedStratifiedKFold(n_splits=5, n_repeats=10, random_state=None)
+# Stratified k-fold
+rskf = RepeatedStratifiedKFold(n_splits=n_splits, n_repeats=n_repeats, random_state=None)
 scores = np.array([])
 threads = []
 # Make k-fold CV
@@ -200,29 +142,20 @@ for train_index, test_index in rskf.split(data, target):
     thread.start()
 for thread in threads:
     thread.join()
+
 # Print final score
 with open('SVC_py_out.txt', mode='a') as f:
-    print('Average score (Stratified k-fold):', scores.mean(), '+-', scores.std(), file=f)
+    print('Average score:', scores.mean(), '+-', scores.std() / np.sqrt(n_splits), file=f)
 
-
-# In[ ]:
-
-
-telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End k-fold validation.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
 
-# ## Data augmentation
-#
-# Data augmentation is a strategy that increase the diversity of data available for training models, without actually collecting new data. The data augmentation techniques used in this situation are vertical flipping and translation.
-
-# ### Preparation
-
-# In[ ]:
+#####################
+# Data augmentation #
+#####################
 
 
-telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start data augmentation part.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
@@ -230,185 +163,149 @@ with open('SVC_py_out.txt', mode='a') as f:
     print('Start data augmentation part.', file=f)
 
 
-# In[ ]:
+#################
+# Simple training
 
 
-data_aug, target_aug = data, target
-data_aug = np.concatenate((data_aug, -data))
-target_aug = np.concatenate((target_aug, target))
-
-for i in range(1,100):
-    data_aug = np.concatenate((data_aug, np.roll(data, i, axis=1)))
-    data_aug = np.concatenate((data_aug, -np.roll(data, i, axis=1)))
-    target_aug = np.concatenate((target_aug, target))
-    target_aug = np.concatenate((target_aug, target))
-
-
-# ### Simple training
-
-# In[ ]:
-
-
-telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start k-fold validation.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
 with open('SVC_py_out.txt', mode='a') as f:
     print('k-fold validation.', file=f)
 
-
-# In[ ]:
-
-
-maxthreads = 4
-sema = threading.Semaphore(value=maxthreads)
-c = threading.Condition()
-
+# Multithread function
 def thread_function(train_index, test_index):
     # Acquire a semaphore slot
     sema.acquire()
     # Set global variables
-    global data_aug
-    global target_aug
+    global data
+    global target
     global scores
+    global scores_aug
     global best_kernel
     global best_gamma
     global best_C
     # Load training and testing data
     c.acquire()
     clf = SVC(kernel=best_kernel, gamma=best_gamma, C=best_C)
-    X_train, X_test = data_aug[train_index], data_aug[test_index]
-    y_train, y_test = target_aug[train_index], target_aug[test_index]
+    X_train, X_test = data[train_index], data[test_index]
+    y_train, y_test = target[train_index], target[test_index]
     c.notify_all()
     c.release()
+    # Apply data augmentation on training data
+    X_train_aug, y_train_aug = X_train, y_train
+    X_train_aug = np.concatenate((X_train_aug, -X_train))
+    y_train_aug = np.concatenate((y_train_aug, y_train))
+    for j in range(1,100):
+        X_train_aug = np.concatenate((X_train_aug, np.roll(X_train, j, axis=1)))
+        X_train_aug = np.concatenate((X_train_aug, -np.roll(X_train, j, axis=1)))
+        y_train_aug = np.concatenate((y_train_aug, y_train))
+        y_train_aug = np.concatenate((y_train_aug, y_train))
+    # Apply data augmentation on testing data
+    X_test_aug, y_test_aug = X_test, y_test
+    X_test_aug = np.concatenate((X_test_aug, -X_test))
+    y_test_aug = np.concatenate((y_test_aug, y_test))
+    for j in range(1,100):
+        X_test_aug = np.concatenate((X_test_aug, np.roll(X_test, j, axis=1)))
+        X_test_aug = np.concatenate((X_test_aug, -np.roll(X_test, j, axis=1)))
+        y_test_aug = np.concatenate((y_test_aug, y_test))
+        y_test_aug = np.concatenate((y_test_aug, y_test))
     # Fit the model
-    clf.fit(X_train, y_train)
+    clf.fit(X_train_aug, y_train_aug)
+    train_score = clf.score(X_test, y_test)
+    train_score_aug = clf.score(X_test_aug, y_test_aug)
     # Save the score
     c.acquire()
-    scores = np.append(scores, clf.score(X_test, y_test))
+    scores = np.append(scores, train_score)
+    scores_aug = np.append(scores_aug, train_score_aug)
     c.notify_all()
     c.release()
     # Release the semaphore slot
     sema.release()
 
-
-## K-FOLD
-
-rkf = RepeatedKFold(n_splits=5, n_repeats=10, random_state=None)
+# Stratified k-fold
+rskf = RepeatedStratifiedKFold(n_splits=n_splits, n_repeats=n_repeats, random_state=None)
 scores = np.array([])
+scores_aug = np.array([])
 threads = []
 # Make k-fold CV
-for train_index, test_index in rkf.split(data_aug, target_aug):
+for train_index, test_index in rskf.split(data, target):
     thread = threading.Thread(target=thread_function, args=(train_index, test_index))
     threads.append(thread)
     thread.start()
 for thread in threads:
     thread.join()
+
 # Print final score
 with open('SVC_py_out.txt', mode='a') as f:
-    print('Average score (k-fold):', scores.mean(), '+-', scores.std(), file=f)
+    print('Average score:', scores.mean(), '+-', scores.std() / np.sqrt(n_splits), file=f)
+    print('Average score (augmented):', scores_aug.mean(), '+-', scores_aug.std() / np.sqrt(n_splits), file=f)
 
-
-## STRATIFIED K-FOLD
-
-rskf = RepeatedStratifiedKFold(n_splits=5, n_repeats=10, random_state=None)
-scores = np.array([])
-threads = []
-# Make k-fold CV
-for train_index, test_index in rskf.split(data_aug, target_aug):
-    thread = threading.Thread(target=thread_function, args=(train_index, test_index))
-    threads.append(thread)
-    thread.start()
-for thread in threads:
-    thread.join()
-# Print final score
-with open('SVC_py_out.txt', mode='a') as f:
-    print('Average score (Stratified k-fold):', scores.mean(), '+-', scores.std(), file=f)
-
-
-# In[ ]:
-
-
-telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End k-fold validation.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
 
-# ### Bagging Classifier training
-#
-# A Bagging classifier is an ensemble meta-estimator that fits base classifiers each on random subsets of the original dataset and then aggregate their individual predictions (either by voting or by averaging) to form a final prediction.
-
-# In[ ]:
+#############################
+# Bagging Classifier training
 
 
-telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start Bagging Classifier k-fold validation.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
 with open('SVC_py_out.txt', mode='a') as f:
     print('Bagging Classifier k-fold validation.', file=f)
 
-
-# In[ ]:
-
-
-n_estimators = 10
-clf = BaggingClassifier(SVC(kernel=best_kernel, gamma=best_gamma, C=best_C), n_estimators=n_estimators, max_samples=1./n_estimators, n_jobs=-1)
-
-
-## K-FOLD
-
-rkf = RepeatedKFold(n_splits=5, n_repeats=10, random_state=None)
-scores_rkf = np.array([])
+# Stratified k-fold
+rskf = RepeatedStratifiedKFold(n_splits=n_splits, n_repeats=n_repeats, random_state=None)
+scores = np.array([])
+scores_aug = np.array([])
 # Make k-fold CV
-for train_index, test_index in rkf.split(data_aug, target_aug):
-    X_train, X_test = data_aug[train_index], data_aug[test_index]
-    y_train, y_test = target_aug[train_index], target_aug[test_index]
-    clf.fit(X_train, y_train)
-    scores_rkf = np.append(scores_rkf, clf.score(X_test, y_test))
+for train_index, test_index in rskf.split(data, target):
+    # Initialize classifier
+    clf = BaggingClassifier(SVC(kernel=best_kernel, gamma=best_gamma, C=best_C), n_estimators=n_estimators, max_samples=max_samples, n_jobs=-1)
+    # Split data
+    X_train, X_test = data[train_index], data[test_index]
+    y_train, y_test = target[train_index], target[test_index]
+    # Apply data augmentation on training data
+    X_train_aug, y_train_aug = X_train, y_train
+    X_train_aug = np.concatenate((X_train_aug, -X_train))
+    y_train_aug = np.concatenate((y_train_aug, y_train))
+    for j in range(1,100):
+        X_train_aug = np.concatenate((X_train_aug, np.roll(X_train, j, axis=1)))
+        X_train_aug = np.concatenate((X_train_aug, -np.roll(X_train, j, axis=1)))
+        y_train_aug = np.concatenate((y_train_aug, y_train))
+        y_train_aug = np.concatenate((y_train_aug, y_train))
+    # Apply data augmentation on testing data
+    X_test_aug, y_test_aug = X_test, y_test
+    X_test_aug = np.concatenate((X_test_aug, -X_test))
+    y_test_aug = np.concatenate((y_test_aug, y_test))
+    for j in range(1,100):
+        X_test_aug = np.concatenate((X_test_aug, np.roll(X_test, j, axis=1)))
+        X_test_aug = np.concatenate((X_test_aug, -np.roll(X_test, j, axis=1)))
+        y_test_aug = np.concatenate((y_test_aug, y_test))
+        y_test_aug = np.concatenate((y_test_aug, y_test))
+    # Fit the model
+    clf.fit(X_train_aug, y_train_aug)
+    train_score = clf.score(X_test, y_test)
+    train_score_aug = clf.score(X_test_aug, y_test_aug)
+    # Save the score
+    scores = np.append(scores, train_score)
+    scores_aug = np.append(scores_aug, train_score_aug)
+    
 # Print final score
 with open('SVC_py_out.txt', mode='a') as f:
-    print('Average score (k-fold):', scores_rkf.mean(), '+-', scores_rkf.std(), file=f)
+    print('Average score:', scores.mean(), '+-', scores.std() / np.sqrt(n_splits), file=f)
+    print('Average score (augmented):', scores_aug.mean(), '+-', scores_aug.std() / np.sqrt(n_splits), file=f)
 
-
-## STRATIFIED K-FOLD
-
-rskf = RepeatedStratifiedKFold(n_splits=5, n_repeats=10, random_state=None)
-scores_rskf = np.array([])
-# Make k-fold CV
-for train_index, test_index in rskf.split(data_aug, target_aug):
-    X_train, X_test = data_aug[train_index], data_aug[test_index]
-    y_train, y_test = target_aug[train_index], target_aug[test_index]
-    clf.fit(X_train, y_train)
-    scores_rskf = np.append(scores_rskf, clf.score(X_test, y_test))
-# Print final score
-with open('SVC_py_out.txt', mode='a') as f:
-    print('Average score (Stratified k-fold):', scores_rskf.mean(), '+-', scores_rskf.std(), file=f)
-
-
-# In[ ]:
-
-
-telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End Bagging Classifier k-fold validation.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
-
-# In[ ]:
-
-
-telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End data augmentation part.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
 with open('SVC_py_out.txt', mode='a') as f:
     print('End data augmentation part.', file=f)
 
-
-# In[ ]:
-
-
-telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End no multi glitch part.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
@@ -416,69 +313,39 @@ with open('SVC_py_out.txt', mode='a') as f:
     print('End no multi glitch part.', file=f)
 
 
-# # YES MULTI GLITCH
+#######################################################################
+# YES MULTI GLITCH
+#######################################################################
 
-# In[ ]:
 
-
-telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start yes multi glitch part.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
 with open('SVC_py_out.txt', mode='a') as f:
-    print('Start yes multi glitch part.', file=f)
+    print('\nStart yes multi glitch part.', file=f)
 
-
-# ## Preparation
-#
-# Load data and target from `classification/ris/OUT-classified-merged.h5` and load into numpy arrays.
-#
-# **Label `0` = NO GLITCH**
-#
-# **Label `1` = GLITCH and MULTI GLITCH**
-
-# In[ ]:
-
-
+# Load data
 with pd.HDFStore('../../classification/ris/OUT-classified-merged.h5', mode='r') as in_data:
     data = np.concatenate((data, in_data['MULTI_GLITCH'].to_numpy()))
     target = np.concatenate((target, np.ones(len(in_data['MULTI_GLITCH'].to_numpy()))))
-
-
-# ## Best training
-#
-# Initialize best hyper-parameters founded.
-
-# In[ ]:
-
-
+                
+# Best training parameters
 best_kernel = 'rbf'
 best_gamma = 0.0151
 best_C = 1.45
 
 
-# ### Cross validation
-#
-# Use k-fold to make a cross validation of the model.
-
-# In[ ]:
+###################
+# Cross validation
 
 
-telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start k-fold validation.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
 with open('SVC_py_out.txt', mode='a') as f:
     print('k-fold validation.', file=f)
 
-
-# In[ ]:
-
-
-maxthreads = 4
-sema = threading.Semaphore(value=maxthreads)
-c = threading.Condition()
-
+# Multithread function
 def thread_function(train_index, test_index):
     # Acquire a semaphore slot
     sema.acquire()
@@ -498,35 +365,17 @@ def thread_function(train_index, test_index):
     c.release()
     # Fit the model
     clf.fit(X_train, y_train)
+    train_score = clf.score(X_test, y_test)
     # Save the score
     c.acquire()
-    scores = np.append(scores, clf.score(X_test, y_test))
+    scores = np.append(scores, train_score)
     c.notify_all()
     c.release()
     # Release the semaphore slot
     sema.release()
 
-
-## K-FOLD
-
-rkf = RepeatedKFold(n_splits=5, n_repeats=10, random_state=None)
-scores = np.array([])
-threads = []
-# Make k-fold CV
-for train_index, test_index in rkf.split(data, target):
-    thread = threading.Thread(target=thread_function, args=(train_index, test_index))
-    threads.append(thread)
-    thread.start()
-for thread in threads:
-    thread.join()
-# Print final score
-with open('SVC_py_out.txt', mode='a') as f:
-    print('Average score (k-fold):', scores.mean(), '+-', scores.std(), file=f)
-
-
-## STRATIFIED K-FOLD
-
-rskf = RepeatedStratifiedKFold(n_splits=5, n_repeats=10, random_state=None)
+# Stratified k-fold
+rskf = RepeatedStratifiedKFold(n_splits=n_splits, n_repeats=n_repeats, random_state=None)
 scores = np.array([])
 threads = []
 # Make k-fold CV
@@ -536,29 +385,20 @@ for train_index, test_index in rskf.split(data, target):
     thread.start()
 for thread in threads:
     thread.join()
+    
 # Print final score
 with open('SVC_py_out.txt', mode='a') as f:
-    print('Average score (Stratified k-fold):', scores.mean(), '+-', scores.std(), file=f)
+    print('Average score:', scores.mean(), '+-', scores.std() / np.sqrt(n_splits), file=f)
 
-
-# In[ ]:
-
-
-telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End k-fold validation.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
 
-# ## Data augmentation
-#
-# Data augmentation is a strategy that increase the diversity of data available for training models, without actually collecting new data. The data augmentation techniques used in this situation are vertical flipping and translation.
-
-# ### Preparation
-
-# In[ ]:
+#####################
+# Data augmentation #
+#####################
 
 
-telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start data augmentation part.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
@@ -566,187 +406,154 @@ with open('SVC_py_out.txt', mode='a') as f:
     print('Start data augmentation part.', file=f)
 
 
-# In[ ]:
+#################
+# Simple training
 
 
-data_aug, target_aug = data, target
-data_aug = np.concatenate((data_aug, -data))
-target_aug = np.concatenate((target_aug, target))
-
-for i in range(1,100):
-    data_aug = np.concatenate((data_aug, np.roll(data, i, axis=1)))
-    data_aug = np.concatenate((data_aug, -np.roll(data, i, axis=1)))
-    target_aug = np.concatenate((target_aug, target))
-    target_aug = np.concatenate((target_aug, target))
-
-
-# ### Simple training
-
-# In[ ]:
-
-
-telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start k-fold validation.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
 with open('SVC_py_out.txt', mode='a') as f:
     print('k-fold validation.', file=f)
 
-
-# In[ ]:
-
-
-maxthreads = 4
-sema = threading.Semaphore(value=maxthreads)
-c = threading.Condition()
-
+# Multithread function
 def thread_function(train_index, test_index):
     # Acquire a semaphore slot
     sema.acquire()
     # Set global variables
-    global data_aug
-    global target_aug
+    global data
+    global target
     global scores
+    global scores_aug
     global best_kernel
     global best_gamma
     global best_C
     # Load training and testing data
     c.acquire()
     clf = SVC(kernel=best_kernel, gamma=best_gamma, C=best_C)
-    X_train, X_test = data_aug[train_index], data_aug[test_index]
-    y_train, y_test = target_aug[train_index], target_aug[test_index]
+    X_train, X_test = data[train_index], data[test_index]
+    y_train, y_test = target[train_index], target[test_index]
     c.notify_all()
     c.release()
+    # Apply data augmentation on training data
+    X_train_aug, y_train_aug = X_train, y_train
+    X_train_aug = np.concatenate((X_train_aug, -X_train))
+    y_train_aug = np.concatenate((y_train_aug, y_train))
+    for j in range(1,100):
+        X_train_aug = np.concatenate((X_train_aug, np.roll(X_train, j, axis=1)))
+        X_train_aug = np.concatenate((X_train_aug, -np.roll(X_train, j, axis=1)))
+        y_train_aug = np.concatenate((y_train_aug, y_train))
+        y_train_aug = np.concatenate((y_train_aug, y_train))
+    # Apply data augmentation on testing data
+    X_test_aug, y_test_aug = X_test, y_test
+    X_test_aug = np.concatenate((X_test_aug, -X_test))
+    y_test_aug = np.concatenate((y_test_aug, y_test))
+    for j in range(1,100):
+        X_test_aug = np.concatenate((X_test_aug, np.roll(X_test, j, axis=1)))
+        X_test_aug = np.concatenate((X_test_aug, -np.roll(X_test, j, axis=1)))
+        y_test_aug = np.concatenate((y_test_aug, y_test))
+        y_test_aug = np.concatenate((y_test_aug, y_test))
     # Fit the model
-    clf.fit(X_train, y_train)
+    clf.fit(X_train_aug, y_train_aug)
+    train_score = clf.score(X_test, y_test)
+    train_score_aug = clf.score(X_test_aug, y_test_aug)
     # Save the score
     c.acquire()
-    scores = np.append(scores, clf.score(X_test, y_test))
+    scores = np.append(scores, train_score)
+    scores_aug = np.append(scores_aug, train_score_aug)
     c.notify_all()
     c.release()
     # Release the semaphore slot
     sema.release()
 
-
-## K-FOLD
-
-rkf = RepeatedKFold(n_splits=5, n_repeats=10, random_state=None)
+# Stratified k-fold
+rskf = RepeatedStratifiedKFold(n_splits=n_splits, n_repeats=n_repeats, random_state=None)
 scores = np.array([])
+scores_aug = np.array([])
 threads = []
 # Make k-fold CV
-for train_index, test_index in rkf.split(data_aug, target_aug):
+for train_index, test_index in rskf.split(data, target):
     thread = threading.Thread(target=thread_function, args=(train_index, test_index))
     threads.append(thread)
     thread.start()
 for thread in threads:
     thread.join()
+    
 # Print final score
 with open('SVC_py_out.txt', mode='a') as f:
-    print('Average score (k-fold):', scores.mean(), '+-', scores.std(), file=f)
+    print('Average score:', scores.mean(), '+-', scores.std() / np.sqrt(n_splits), file=f)
+    print('Average score (augmented):', scores_aug.mean(), '+-', scores_aug.std() / np.sqrt(n_splits), file=f)
 
-
-## STRATIFIED K-FOLD
-
-rskf = RepeatedStratifiedKFold(n_splits=5, n_repeats=10, random_state=None)
-scores = np.array([])
-threads = []
-# Make k-fold CV
-for train_index, test_index in rskf.split(data_aug, target_aug):
-    thread = threading.Thread(target=thread_function, args=(train_index, test_index))
-    threads.append(thread)
-    thread.start()
-for thread in threads:
-    thread.join()
-# Print final score
-with open('SVC_py_out.txt', mode='a') as f:
-    print('Average score (Stratified k-fold):', scores.mean(), '+-', scores.std(), file=f)
-
-
-# In[ ]:
-
-
-telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End k-fold validation.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
 
-# ### Bagging Classifier training
-#
-# A Bagging classifier is an ensemble meta-estimator that fits base classifiers each on random subsets of the original dataset and then aggregate their individual predictions (either by voting or by averaging) to form a final prediction.
-
-# In[ ]:
+#############################
+# Bagging Classifier training
 
 
-telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Start Bagging Classifier k-fold validation.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
 with open('SVC_py_out.txt', mode='a') as f:
     print('Bagging Classifier k-fold validation.', file=f)
 
-
-# In[ ]:
-
-
-n_estimators = 10
-clf = BaggingClassifier(SVC(kernel=best_kernel, gamma=best_gamma, C=best_C), n_estimators=n_estimators, max_samples=1./n_estimators, n_jobs=-1)
-
-
-## K-FOLD
-
-rkf = RepeatedKFold(n_splits=5, n_repeats=10, random_state=None)
-scores_rkf = np.array([])
+# Stratified k-fold
+rskf = RepeatedStratifiedKFold(n_splits=n_splits, n_repeats=n_repeats, random_state=None)
+scores = np.array([])
+scores_aug = np.array([])
 # Make k-fold CV
-for train_index, test_index in rkf.split(data_aug, target_aug):
-    X_train, X_test = data_aug[train_index], data_aug[test_index]
-    y_train, y_test = target_aug[train_index], target_aug[test_index]
-    clf.fit(X_train, y_train)
-    scores_rkf = np.append(scores_rkf, clf.score(X_test, y_test))
+for train_index, test_index in rskf.split(data, target):
+    # Initialize classifier
+    clf = BaggingClassifier(SVC(kernel=best_kernel, gamma=best_gamma, C=best_C), n_estimators=n_estimators, max_samples=max_samples, n_jobs=-1)
+    # Split data
+    X_train, X_test = data[train_index], data[test_index]
+    y_train, y_test = target[train_index], target[test_index]
+    # Apply data augmentation on training data
+    X_train_aug, y_train_aug = X_train, y_train
+    X_train_aug = np.concatenate((X_train_aug, -X_train))
+    y_train_aug = np.concatenate((y_train_aug, y_train))
+    for j in range(1,100):
+        X_train_aug = np.concatenate((X_train_aug, np.roll(X_train, j, axis=1)))
+        X_train_aug = np.concatenate((X_train_aug, -np.roll(X_train, j, axis=1)))
+        y_train_aug = np.concatenate((y_train_aug, y_train))
+        y_train_aug = np.concatenate((y_train_aug, y_train))
+    # Apply data augmentation on testing data
+    X_test_aug, y_test_aug = X_test, y_test
+    X_test_aug = np.concatenate((X_test_aug, -X_test))
+    y_test_aug = np.concatenate((y_test_aug, y_test))
+    for j in range(1,100):
+        X_test_aug = np.concatenate((X_test_aug, np.roll(X_test, j, axis=1)))
+        X_test_aug = np.concatenate((X_test_aug, -np.roll(X_test, j, axis=1)))
+        y_test_aug = np.concatenate((y_test_aug, y_test))
+        y_test_aug = np.concatenate((y_test_aug, y_test))
+    # Fit the model
+    clf.fit(X_train_aug, y_train_aug)
+    train_score = clf.score(X_test, y_test)
+    train_score_aug = clf.score(X_test_aug, y_test_aug)
+    # Save the score
+    scores = np.append(scores, train_score)
+    scores_aug = np.append(scores_aug, train_score_aug)
+    
 # Print final score
 with open('SVC_py_out.txt', mode='a') as f:
-    print('Average score (k-fold):', scores_rkf.mean(), '+-', scores_rkf.std(), file=f)
+    print('Average score:', scores.mean(), '+-', scores.std() / np.sqrt(n_splits), file=f)
+    print('Average score (augmented):', scores_aug.mean(), '+-', scores_aug.std() / np.sqrt(n_splits), file=f)
 
-
-## STRATIFIED K-FOLD
-
-rskf = RepeatedStratifiedKFold(n_splits=5, n_repeats=10, random_state=None)
-scores_rskf = np.array([])
-# Make k-fold CV
-for train_index, test_index in rskf.split(data_aug, target_aug):
-    X_train, X_test = data_aug[train_index], data_aug[test_index]
-    y_train, y_test = target_aug[train_index], target_aug[test_index]
-    clf.fit(X_train, y_train)
-    scores_rskf = np.append(scores_rskf, clf.score(X_test, y_test))
-# Print final score
-with open('SVC_py_out.txt', mode='a') as f:
-    print('Average score (Stratified k-fold):', scores_rskf.mean(), '+-', scores_rskf.std(), file=f)
-
-
-# In[ ]:
-
-
-telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End Bagging Classifier k-fold validation.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
-
-# In[ ]:
-
-
-telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End data augmentation part.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
 with open('SVC_py_out.txt', mode='a') as f:
     print('End data augmentation part.', file=f)
 
-
-# In[ ]:
-
-
-telegram_bot_id = toml.load('../telegram_bot_id.toml')
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End yes multi glitch part.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
 with open('SVC_py_out.txt', mode='a') as f:
     print('End yes multi glitch part.', file=f)
+
+params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] ####################'}
+requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
