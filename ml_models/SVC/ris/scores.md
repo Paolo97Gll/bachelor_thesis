@@ -50,6 +50,7 @@ _Best hyper-parameters:_
 best_kernel = 'rbf'
 best_gamma = 0.0145
 best_C = 0.8
+
 n_estimators = 4
 max_samples = 0.95
 ```
@@ -73,9 +74,8 @@ _Score:_
 _Best hyper-parameters:_
 
 ```
-best_kernel = 'rbf'
-best_gamma = 0.0145
-best_C = 0.8
+best_kernel = 'linear'
+best_C = 0.117
 ```
 
 _Score:_
