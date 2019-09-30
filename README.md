@@ -42,7 +42,12 @@ More information on the equations used and the procedures followed are included 
 
 - [ ] **BUILD MACHINE LEARNING MODELS**, folder `ml_models` : train and test various machine learning algorithms. Candidates algorithms are:
 	
-	- [ ] **C-Support Vector Classification** (from scikit-learn), folder `ml_models/SVC` .
+	- [x] **C-Support Vector Classifier** (from scikit-learn), folder `ml_models/SVC` ; detailed scores of the various models can be found in `ml_models/SVC/ris/scores.md` .
+	
+		Best scores:
+		- Normal data (with mg): `0.9805394027462672 +- 0.00627073597526611`
+		
+		- Ordered data (with mg): `0.9989599476246728 +- 0.001555334812416503`
 	
 	- [ ] **Random Forest Classifier** (from scikit-learn)
 	
