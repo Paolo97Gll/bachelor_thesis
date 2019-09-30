@@ -21,3 +21,7 @@ SyncToy*
 
 # Telegram Bot ID
 telegram_bot_id.toml
+
+# Tuning hyper-parameters output
+RandomizedSearch*
+GridSearch*
