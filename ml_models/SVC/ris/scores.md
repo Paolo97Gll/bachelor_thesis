@@ -83,3 +83,89 @@ _Score:_
 ```
 0.9989511376976302 +- 0.0016290507789316132
 ```
+
+# SVC - Yes multi glitch
+
+## Standard training
+
+_Best hyper-parameters:_
+
+```
+best_kernel = 'rbf'
+best_gamma = 0.0151
+best_C = 1.45
+```
+
+_Score:_
+
+```
+0.9805394027462672 +- 0.00627073597526611
+```
+
+## Data augmentation training
+
+### Normal SVC
+
+_Best hyper-parameters:_
+
+```
+best_kernel = 'rbf'
+best_gamma = 0.0145
+best_C = 0.8
+```
+
+_Score:_
+
+- Normal test dataset:
+
+    ```
+    0.9896635150844693 +- 0.0021393523591691794
+    ```
+
+- Augmented test dataset:
+
+    ```
+    0.9896635150844693 +- 0.0021393523591691794
+    ```
+
+### Bagging Classifier with SVC
+
+_Best hyper-parameters:_
+
+```
+best_kernel = 'rbf'
+best_gamma = 0.0145
+best_C = 0.8
+
+n_estimators = 4
+max_samples = 0.95
+```
+
+_Score:_
+
+- Normal test dataset:
+
+    ```
+    fill
+    ```
+
+- Augmented test dataset:
+
+    ```
+    fill
+    ```
+
+## Sorted training
+
+_Best hyper-parameters:_
+
+```
+best_kernel = 'linear'
+best_C = 0.06
+```
+
+_Score:_
+
+```
+0.9989599476246728 +- 0.001555334812416503
+```
