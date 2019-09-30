@@ -7,8 +7,8 @@ OneDrive
 # main data folder
 data
 
-# results folders
-ris
+# results cleaning folders
+cleaning/ris
 
 # old files
 old
