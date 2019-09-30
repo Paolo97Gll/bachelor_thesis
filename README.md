@@ -47,7 +47,7 @@ More information on the equations used and the procedures followed are included 
 		Best scores:
 		- Normal data (with mg): `0.9805394027462672 +- 0.00627073597526611`
 		
-		- Ordered data (with mg): `0.9989599476246728 +- 0.001555334812416503`
+		- Sorted data (with mg): `0.9989599476246728 +- 0.001555334812416503`
 	
 	- [ ] **Random Forest Classifier** (from scikit-learn)
 	
