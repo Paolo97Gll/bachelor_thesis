@@ -1,0 +1,25 @@
+Start no multi glitch part.
+k-fold validation.
+Average score: 0.9788675068966602 +- 0.0025389509689538454
+Start data augmentation part.
+k-fold validation.
+Average score: 0.9879928336515279 +- 0.0028638819815549246
+Average score (augmented): 0.9879928336515279 +- 0.0028638819815549246
+Bagging Classifier k-fold validation.
+Average score: 0.9887607686220358 +- 0.0021904060021883673
+Average score (augmented): 0.9887974233667013 +- 0.0021588713860837966
+End data augmentation part.
+End no multi glitch part.
+
+Start yes multi glitch part.
+k-fold validation.
+Average score: 0.9800822411390071 +- 0.0019055658005421344
+Start data augmentation part.
+k-fold validation.
+Average score: 0.9896635150844693 +- 0.0021393523591691794
+Average score (augmented): 0.9896635150844693 +- 0.0021393523591691794
+Bagging Classifier k-fold validation.
+Average score: 0.98966560051417 +- 0.0020375628427123636
+Average score (augmented): 0.9898043073784837 +- 0.001868856310543336
+End data augmentation part.
+End yes multi glitch part.
