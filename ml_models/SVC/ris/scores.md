@@ -1,6 +1,22 @@
+# Cross validation
+
+_Cross validation method:_
+
+```
+RepeatedStratifiedKFold(n_splits=5, n_repeats=6)
+```
+
+So, `training_data` are 0.8 of `data` and `testing_data` are 0.2 of `data`. While computing the training time, `training_data = data`.
+
 # SVC - No multi glitch
 
 ## Standard training
+
+_Data info:_
+
+```
+data.shape = (1735, 100)
+```
 
 _Best hyper-parameters:_
 
@@ -23,6 +39,12 @@ _Training time:_
 ```
 
 ## Data augmentation training
+
+_Data info:_
+
+```
+data.shape = (347000, 100)
+```
 
 ### Normal SVC
 
@@ -88,6 +110,12 @@ _Training time:_
 
 ## Sorted training
 
+_Data info:_
+
+```
+data.shape = (1735, 100)
+```
+
 _Best hyper-parameters:_
 
 ```
@@ -111,6 +139,12 @@ _Training time:_
 
 ## Standard training
 
+_Data info:_
+
+```
+data.shape = (2000, 100)
+```
+
 _Best hyper-parameters:_
 
 ```
@@ -132,6 +166,12 @@ _Training time:_
 ```
 
 ## Data augmentation training
+
+_Data info:_
+
+```
+data.shape = (400000, 100)
+```
 
 ### Normal SVC
 
@@ -197,6 +237,12 @@ fill
 ```
 
 ## Sorted training
+
+_Data info:_
+
+```
+data.shape = (2000, 100)
+```
 
 _Best hyper-parameters:_
 
