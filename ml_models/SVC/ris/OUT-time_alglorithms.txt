@@ -1,0 +1,25 @@
+Start no multi glitch part.
+Standard training.
+Time (s): 0.3805065155029297
+Start data augmentation part.
+Standard training.
+Time (s): 4121.788064241409
+Bagging Classifier training.
+Time (s): 3491.574718236923
+End data augmentation part.
+Sorted training.
+Time (s): 0.019061565399169922
+End no multi glitch part.
+
+Start yes multi glitch part.
+Standard training.
+Time (s): 0.506019115447998
+Start data augmentation part.
+Standard training.
+Time (s): 6830.235624790192
+Bagging Classifier training.
+Time (s): 4861.844314336777
+End data augmentation part.
+Sorted training.
+Time (s): 0.01678013801574707
+End yes multi glitch part.
