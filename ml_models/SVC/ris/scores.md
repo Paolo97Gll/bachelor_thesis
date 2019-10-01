@@ -16,6 +16,12 @@ _Score:_
 0.9785693372600403 +- 0.007206758240810251
 ```
 
+_Training time:_
+
+```
+0.381 s
+```
+
 ## Data augmentation training
 
 ### Normal SVC
@@ -41,6 +47,12 @@ _Score:_
     ```
     0.9879928336515279 +- 0.0028638819815549246
     ```
+
+_Training time:_
+
+```
+1 h  8 m  41.788 s
+```
 
 ### Bagging Classifier with SVC
 
@@ -69,6 +81,11 @@ _Score:_
     0.9887974233667013 +- 0.0021588713860837966
     ```
 
+_Training time:_
+```
+58 m  11.575 s
+```
+
 ## Sorted training
 
 _Best hyper-parameters:_
@@ -82,6 +99,12 @@ _Score:_
 
 ```
 0.9989511376976302 +- 0.0016290507789316132
+```
+
+_Training time:_
+
+```
+0.019 s
 ```
 
 # SVC - Yes multi glitch
@@ -100,6 +123,12 @@ _Score:_
 
 ```
 0.9805394027462672 +- 0.00627073597526611
+```
+
+_Training time:_
+
+```
+0.506 s
 ```
 
 ## Data augmentation training
@@ -128,6 +157,12 @@ _Score:_
     0.9896635150844693 +- 0.0021393523591691794
     ```
 
+_Training time:_
+
+```
+fill
+```
+
 ### Bagging Classifier with SVC
 
 _Best hyper-parameters:_
@@ -146,14 +181,20 @@ _Score:_
 - Normal test dataset:
 
     ```
-    fill
+    0.98966560051417 +- 0.0020375628427123636
     ```
 
 - Augmented test dataset:
 
     ```
-    fill
+    0.9898043073784837 +- 0.001868856310543336
     ```
+
+_Training time:_
+
+```
+fill
+```
 
 ## Sorted training
 
@@ -168,4 +209,10 @@ _Score:_
 
 ```
 0.9989599476246728 +- 0.001555334812416503
+```
+
+_Training time:_
+
+```
+fill
 ```
