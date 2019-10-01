@@ -6,7 +6,9 @@ _Cross validation method:_
 RepeatedStratifiedKFold(n_splits=5, n_repeats=6)
 ```
 
-So, `training_data` are 0.8 of `data` and `testing_data` are 0.2 of `data`. While computing the training time, `training_data = data`.
+So, `training_data` are 0.8 of `data` and `testing_data` are 0.2 of `data`.
+
+While computing the training time, `training_data = data`.
 
 # SVC - No multi glitch
 
