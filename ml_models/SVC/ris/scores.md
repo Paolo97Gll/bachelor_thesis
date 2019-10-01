@@ -202,7 +202,7 @@ _Score:_
 _Training time:_
 
 ```
-fill
+1 h  53 m  50.236 s
 ```
 
 ### Bagging Classifier with SVC
