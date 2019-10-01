@@ -235,7 +235,7 @@ _Score:_
 _Training time:_
 
 ```
-fill
+1 h  21 m  1.844 s
 ```
 
 ## Sorted training
@@ -262,5 +262,5 @@ _Score:_
 _Training time:_
 
 ```
-fill
+0.017 s
 ```
