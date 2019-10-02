@@ -21,6 +21,7 @@ from sklearn.svm import SVC
 from sklearn.ensemble import BaggingClassifier
 
 # Other
+import gc
 import time
 import random
 import requests
@@ -134,6 +135,8 @@ with open('ris/OUT-time_predict_alglorithms.txt', mode='a') as f:
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End standard model.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
+gc.collect()
+
 
 ######################
 # Bagging Classifier #
@@ -173,6 +176,8 @@ with open('ris/OUT-time_predict_alglorithms.txt', mode='a') as f:
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End Bagging Classifier model.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
 
+gc.collect()
+
 
 ###############
 # Sorted data #
@@ -208,6 +213,8 @@ with open('ris/OUT-time_predict_alglorithms.txt', mode='a') as f:
 
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End sorted data model.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
+
+gc.collect()
 
 
 #######
