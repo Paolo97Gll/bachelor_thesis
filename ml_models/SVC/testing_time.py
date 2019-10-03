@@ -21,7 +21,6 @@ from sklearn.svm import SVC
 from sklearn.ensemble import BaggingClassifier
 
 # Other
-import gc
 import time
 import random
 import requests
@@ -68,32 +67,32 @@ with pd.HDFStore('../../classification/ris/OUT-classified-merged.h5', mode='r') 
 # Sorted data
 data_s = np.sort(data, axis=1)
 
-# Augmented data
-data_aug, target_aug = data, target
-data_aug = np.concatenate((data_aug, -data))
-target_aug = np.concatenate((target_aug, target))
-for j in range(1,100):
-    data_aug = np.concatenate((data_aug, np.roll(data, j, axis=1)))
-    data_aug = np.concatenate((data_aug, -np.roll(data, j, axis=1)))
-    target_aug = np.concatenate((target_aug, target))
-    target_aug = np.concatenate((target_aug, target))
+# # Augmented data
+# data_aug, target_aug = data, target
+# data_aug = np.concatenate((data_aug, -data))
+# target_aug = np.concatenate((target_aug, target))
+# for j in range(1,100):
+#     data_aug = np.concatenate((data_aug, np.roll(data, j, axis=1)))
+#     data_aug = np.concatenate((data_aug, -np.roll(data, j, axis=1)))
+#     target_aug = np.concatenate((target_aug, target))
+#     target_aug = np.concatenate((target_aug, target))
 
-# Testing data
-n_test_data = 4000000
-test_data = np.random.rand(n_test_data, 100) * 3
-for i in test_data[::2]:
-    if random.getrandbits(1) == 1:
-        i[np.random.randint(100)] += np.random.randint(7,20)
-    if random.getrandbits(1) == 1:
-        i[np.random.randint(100)] += np.random.randint(7,20)
-    if random.getrandbits(1) == 1:
-        i[np.random.randint(100)] += np.random.randint(7,20)
-    if random.getrandbits(1) == 1:
-        i[np.random.randint(100)] += np.random.randint(7,50)
-    if random.getrandbits(1) == 1:
-        i[np.random.randint(100)] += np.random.randint(7,100)
-    if random.getrandbits(1) == 1:
-        i = -i
+# # Testing data
+# n_test_data = 4000000
+# test_data = np.random.rand(n_test_data, 100) * 3
+# for i in test_data[::2]:
+#     if random.getrandbits(1) == 1:
+#         i[np.random.randint(100)] += np.random.randint(7,20)
+#     if random.getrandbits(1) == 1:
+#         i[np.random.randint(100)] += np.random.randint(7,20)
+#     if random.getrandbits(1) == 1:
+#         i[np.random.randint(100)] += np.random.randint(7,20)
+#     if random.getrandbits(1) == 1:
+#         i[np.random.randint(100)] += np.random.randint(7,50)
+#     if random.getrandbits(1) == 1:
+#         i[np.random.randint(100)] += np.random.randint(7,100)
+#     if random.getrandbits(1) == 1:
+#         i = -i
 
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] Data loaded.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
@@ -126,16 +125,17 @@ with open('ris/OUT-time_predict_alglorithms.txt', mode='a') as f:
     print('Training time (s):', t_e - t_b, file=f)
 
 # Test
-t_b = time.time()
-clf.predict_proba(test_data)
-t_e = time.time()
+time = 0.
+for i in range(2000):
+    t_b = time.time()
+    clf.predict_proba(data)
+    t_e = time.time()
+    time += t_e - t_b
 with open('ris/OUT-time_predict_alglorithms.txt', mode='a') as f:
-    print('Prediction time (s):', t_e - t_b, file=f)
+    print('Prediction time (s):', time, file=f)
 
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End standard model.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
-
-gc.collect()
 
 
 ######################
@@ -167,16 +167,17 @@ with open('ris/OUT-time_predict_alglorithms.txt', mode='a') as f:
     print('Training time (s):', t_e - t_b, file=f)
 
 # Test
-t_b = time.time()
-clf.predict_proba(test_data)
-t_e = time.time()
+time = 0.
+for i in range(2000):
+    t_b = time.time()
+    clf.predict_proba(data)
+    t_e = time.time()
+    time += t_e - t_b
 with open('ris/OUT-time_predict_alglorithms.txt', mode='a') as f:
-    print('Prediction time (s):', t_e - t_b, file=f)
+    print('Prediction time (s):', time, file=f)
 
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End Bagging Classifier model.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
-
-gc.collect()
 
 
 ###############
@@ -199,22 +200,23 @@ clf = SVC(kernel=best_kernel, C=best_C, probability=True)
 
 # Train
 t_b = time.time()
-clf.fit(data, target)
+clf.fit(data_s, target)
 t_e = time.time()
 with open('ris/OUT-time_predict_alglorithms.txt', mode='a') as f:
     print('Training time (s):', t_e - t_b, file=f)
 
 # Test
-t_b = time.time()
-clf.predict_proba(test_data)
-t_e = time.time()
+time = 0.
+for i in range(2000):
+    t_b = time.time()
+    clf.predict_proba(data_s)
+    t_e = time.time()
+    time += t_e - t_b
 with open('ris/OUT-time_predict_alglorithms.txt', mode='a') as f:
-    print('Prediction time (s):', t_e - t_b, file=f)
+    print('Prediction time (s):', time, file=f)
 
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End sorted data model.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
-
-gc.collect()
 
 
 #######
