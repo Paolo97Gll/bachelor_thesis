@@ -6,7 +6,7 @@ _Machine learning techniques for glitch detection in Planck/HFI data at 143 GHz.
 
 More information on the equations used and the procedures followed are included in the notebooks comments.
 
-- [x] **DATA CLEANING**, folder `cleaning` : clean data from various effects.
+- [x] **DATA CLEANING**, folder `cleaning`: clean data from various effects.
 
 	Since the purpose of this thesis is to detect glitches and not to clean up the RAW signal from the galactic signal and other signals, all points that are on the galactic plane or coincide with a point source can be ignored without any consequences.
 	
@@ -32,7 +32,7 @@ More information on the equations used and the procedures followed are included 
 			
 	Cleaned data are saved in [HDF5](https://www.hdfgroup.org/) format: it's faster, lighter and allow to save attributes like the title and the version of the code used.
 	
-- [x] **DATA CLASSIFICATION**, folder `classification` : classify data for the machine learning algorithm trainig.
+- [x] **DATA CLASSIFICATION**, folder `classification`: classify data for the machine learning algorithm trainig.
 
 	- [x] **Create code**; features:
 	
@@ -44,20 +44,21 @@ More information on the equations used and the procedures followed are included 
 		
 	- [x] **Classify data**; number of data to be classified: 2000 (1000 with a glitch, 1000 without it).
 
-- [ ] **BUILD MACHINE LEARNING MODELS**, folder `ml_models` : train and test various machine learning algorithms.
+- [ ] **BUILD MACHINE LEARNING MODELS**, folder `ml_models`: train and test various machine learning algorithms.
 
 	PCA dimensionality reduction technique is used to see, in an intuitive way, if data are clustered in well-delimited groups or if they mix together. Looking at the graphs, in both normal and sorted data, glitches (both single and multi) and non-glitches cluster in different and well-defined areas, while glitches and multi glitches are mixed together. This means that a machine learning model can make a good distinction between glitches (both single and multi) and non-glitches. Instead, it's unlikely that that a machine learning model can distinguish between glitched and multi-glitches. So, it is possible to avoid multiclass classifiers and focus only to binary classifiers. This has also been tested using the SVC model, which confirmed the deduction. So, with the exception of the SVC model, all algorithms do not have the no-multi-glitch (nmg) - multi-glitch (mg) distinction.
 	
 	Candidate algorithms are:
 	
-	- [x] **C-Support Vector Classifier** (from scikit-learn), folder `ml_models/SVC` . Detailed scores of the various models can be found in `ml_models/SVC/ris/results.md` ; in-depth descriptions of the algorithms used and why they were used are in notebooks in the model's main folder.
+	- [x] **C-Support Vector Classifier** (from scikit-learn), folder `ml_models/SVC`. Detailed scores of the various models can be found in `ml_models/SVC/ris/results.md` ; in-depth descriptions of the algorithms used and why they were used are in notebooks in the model's main folder.
 	
 		Best scores:
+		
 		- Normal data (with mg): `0.9805394027462672 +- 0.00627073597526611`
 		
 		- Sorted data (with mg): `0.9989599476246728 +- 0.001555334812416503`
 	
-	- [ ] **Random Forest Classifier** (from scikit-learn)
+	- [ ] **Random Forest Classifier** (from scikit-learn), folder `ml_models/RFT`.
 	
 	- [ ] **K-Nearest Neighbors Classifier** (from scikit-learn)
 	
@@ -66,7 +67,7 @@ More information on the equations used and the procedures followed are included 
 
 ## Resources
 
-### Data resource
+### Data
 
 - [Plank Legacy Archive](http://pla.esac.esa.int/pla/#home)
 
