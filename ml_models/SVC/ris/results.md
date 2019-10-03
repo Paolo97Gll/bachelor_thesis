@@ -12,7 +12,7 @@ So, `training_data` are 0.8 of `data` and `testing_data` are 0.2 of `data`.
 
 While computing the training time, `training_data = data`.
 
-## SVC - No multi glitch
+## No multi glitch
 
 ### Standard training
 
@@ -139,7 +139,7 @@ _Training time:_
 0.019 s
 ```
 
-# SVC - Yes multi glitch
+## Yes multi glitch
 
 ### Standard training
 
