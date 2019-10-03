@@ -1,0 +1,9 @@
+Standard model.
+Training time (s): 2.63887882232666
+Prediction time (s): 767.2248985767365
+Bagging Classifier model.
+Training time (s): 2.6918792724609375
+Prediction time (s): 597.6266646385193
+Sorted data model.
+Training time (s): 0.7662923336029053
+Prediction time (s): 189.1984474658966
