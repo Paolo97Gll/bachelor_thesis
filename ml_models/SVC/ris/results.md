@@ -1,4 +1,6 @@
-# Cross validation
+# Without probability
+
+## Cross validation
 
 _Cross validation method:_
 
@@ -10,9 +12,9 @@ So, `training_data` are 0.8 of `data` and `testing_data` are 0.2 of `data`.
 
 While computing the training time, `training_data = data`.
 
-# SVC - No multi glitch
+## SVC - No multi glitch
 
-## Standard training
+### Standard training
 
 _Data info:_
 
@@ -40,7 +42,7 @@ _Training time:_
 0.381 s
 ```
 
-## Data augmentation training
+### Data augmentation training
 
 _Data info:_
 
@@ -48,7 +50,7 @@ _Data info:_
 data.shape = (347000, 100)
 ```
 
-### Normal SVC
+#### Normal SVC
 
 _Best hyper-parameters:_
 
@@ -78,7 +80,7 @@ _Training time:_
 1 h  8 m  41.788 s
 ```
 
-### Bagging Classifier with SVC
+#### Bagging Classifier with SVC
 
 _Best hyper-parameters:_
 
@@ -110,7 +112,7 @@ _Training time:_
 58 m  11.575 s
 ```
 
-## Sorted training
+### Sorted training
 
 _Data info:_
 
@@ -139,7 +141,7 @@ _Training time:_
 
 # SVC - Yes multi glitch
 
-## Standard training
+### Standard training
 
 _Data info:_
 
@@ -167,7 +169,7 @@ _Training time:_
 0.506 s
 ```
 
-## Data augmentation training
+### Data augmentation training
 
 _Data info:_
 
@@ -175,7 +177,7 @@ _Data info:_
 data.shape = (400000, 100)
 ```
 
-### Normal SVC
+#### Normal SVC
 
 _Best hyper-parameters:_
 
@@ -205,7 +207,7 @@ _Training time:_
 1 h  53 m  50.236 s
 ```
 
-### Bagging Classifier with SVC
+#### Bagging Classifier with SVC
 
 _Best hyper-parameters:_
 
@@ -238,7 +240,7 @@ _Training time:_
 1 h  21 m  1.844 s
 ```
 
-## Sorted training
+### Sorted training
 
 _Data info:_
 
@@ -263,4 +265,58 @@ _Training time:_
 
 ```
 0.017 s
+```
+
+# With probability: computational time
+
+Best hyper-parameters and score are not computed as they are the same as above.
+
+_Data info:_
+
+```
+data.shape = (2000,100)
+```
+
+Every model has been tested using `data` and repeating the test 2000 times. So, the testing sample is about 4'000'000 elements. The final time reported is the sum of every single testing time.
+
+## Standard model
+
+_Training time:_
+
+```
+2.639 s
+```
+
+_Testing time:_
+
+```
+12 m  47.225 s
+```
+
+## Bagging Classifier model
+
+_Training time:_
+
+```
+2.692 s
+```
+
+_Testing time:_
+
+```
+9 m  57.627 s
+```
+
+## Sorted model
+
+_Training time:_
+
+```
+0.766 s
+```
+
+_Testing time:_
+
+```
+3 m  9.198 s
 ```
