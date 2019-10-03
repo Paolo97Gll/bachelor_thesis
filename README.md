@@ -50,7 +50,7 @@ More information on the equations used and the procedures followed are included 
 	
 	Candidate algorithms are:
 	
-	- [x] **C-Support Vector Classifier** (from scikit-learn), folder `ml_models/SVC`. Detailed scores of the various models can be found in `ml_models/SVC/ris/results.md` ; in-depth descriptions of the algorithms used and why they were used are in notebooks in the model's main folder.
+	- [x] **C-Support Vector Classifier** (from scikit-learn), folder `ml_models/SVC`. Detailed scores of the various models can be found in `ml_models/SVC/ris/results.md`; in-depth descriptions of the algorithms used and why they were used are in notebooks in the model's main folder.
 	
 		Best scores:
 		
@@ -58,7 +58,7 @@ More information on the equations used and the procedures followed are included 
 		
 		- Sorted data (with mg): `0.9989599476246728 +- 0.001555334812416503`
 	
-	- [ ] **Random Forest Classifier** (from scikit-learn), folder `ml_models/RFT`.
+	- [ ] **Random Forest Classifier** (from scikit-learn), folder `ml_models/RFT`. Detailed scores of the various models can be found in `ml_models/RFT/ris/results.md`; in-depth descriptions of the algorithms used and why they were used are in notebooks in the model's main folder.
 	
 	- [ ] **K-Nearest Neighbors Classifier** (from scikit-learn)
 	
