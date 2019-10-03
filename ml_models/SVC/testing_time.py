@@ -125,14 +125,14 @@ with open('ris/OUT-time_predict_alglorithms.txt', mode='a') as f:
     print('Training time (s):', t_e - t_b, file=f)
 
 # Test
-time = 0.
+predict_time = 0.
 for i in range(2000):
     t_b = time.time()
     clf.predict_proba(data)
     t_e = time.time()
-    time += t_e - t_b
+    predict_time += t_e - t_b
 with open('ris/OUT-time_predict_alglorithms.txt', mode='a') as f:
-    print('Prediction time (s):', time, file=f)
+    print('Prediction time (s):', predict_time, file=f)
 
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End standard model.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
@@ -167,14 +167,14 @@ with open('ris/OUT-time_predict_alglorithms.txt', mode='a') as f:
     print('Training time (s):', t_e - t_b, file=f)
 
 # Test
-time = 0.
+predict_time = 0.
 for i in range(2000):
     t_b = time.time()
     clf.predict_proba(data)
     t_e = time.time()
-    time += t_e - t_b
+    predict_time += t_e - t_b
 with open('ris/OUT-time_predict_alglorithms.txt', mode='a') as f:
-    print('Prediction time (s):', time, file=f)
+    print('Prediction time (s):', predict_time, file=f)
 
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End Bagging Classifier model.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
@@ -206,14 +206,14 @@ with open('ris/OUT-time_predict_alglorithms.txt', mode='a') as f:
     print('Training time (s):', t_e - t_b, file=f)
 
 # Test
-time = 0.
+predict_time = 0.
 for i in range(2000):
     t_b = time.time()
     clf.predict_proba(data_s)
     t_e = time.time()
-    time += t_e - t_b
+    predict_time += t_e - t_b
 with open('ris/OUT-time_predict_alglorithms.txt', mode='a') as f:
-    print('Prediction time (s):', time, file=f)
+    print('Prediction time (s):', predict_time, file=f)
 
 params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] End sorted data model.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
