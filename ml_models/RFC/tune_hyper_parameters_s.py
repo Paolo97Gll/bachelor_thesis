@@ -52,22 +52,23 @@ with pd.HDFStore('../../classification/ris/OUT-classified-merged.h5', mode='r') 
                 print("ERROR.")
     data = np.concatenate((data, in_data['MULTI_GLITCH'].to_numpy()))
     target = np.concatenate((target, np.ones(len(in_data['MULTI_GLITCH'].to_numpy()))))
+data.sort(axis=1)
 
 
 #######################################################################
 
 
 # Number of trees in random forest
-n_estimators = [int(x) for x in np.arange(300, 600, 100)]
+n_estimators = [int(x) for x in np.arange(200, 600, 100)]
 # Number of features to consider at every split
 max_features = ['sqrt']
 # Maximum number of levels in tree
 max_depth = [int(x) for x in np.arange(10, 100, 10)]
 max_depth.append(None)
 # Minimum number of samples required to split a node
-min_samples_split = range(2,5)
+min_samples_split = range(2,6)
 # Minimum number of samples required at each leaf node
-min_samples_leaf = range(1,3)
+min_samples_leaf = range(1,4)
 # Method of selecting samples for training each tree
 bootstrap = [True, False]
 
@@ -82,7 +83,7 @@ parameters = {
 }
 
 # Start search
-GSCV = GridSearchCV(RandomForestClassifier(), parameters, n_jobs=-1, cv=3, iid=False)
+GSCV = GridSearchCV(RandomForestClassifier(), parameters, n_jobs=-1, cv=5, iid=False)
 print('START')
 t_b = time.time()
 GSCV.fit(data, target)
@@ -94,7 +95,7 @@ print('Score:', GSCV.best_score_)
 print('Time (s):', t_e - t_b)
 
 # Print into a file the grid score
-with open('ris/GridSearch_mg_out.md', mode='a') as f:
+with open('ris/GridSearch_mg_s_out.md', mode='a') as f:
     print('# ' + time.ctime(), file=f)
     print('', file=f)
     print('### GridSearchCV parameters:', file=f)
