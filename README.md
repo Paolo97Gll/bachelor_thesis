@@ -57,10 +57,16 @@ More information on the equations used and the procedures followed are included 
 		- Normal data (with mg): `0.9805394027462672 +- 0.00627073597526611`
 		
 		- Sorted data (with mg): `0.9989599476246728 +- 0.001555334812416503`
+		
+		State: **finished**.
 	
 	- [ ] **Random Forest Classifier** (from scikit-learn), folder `ml_models/RFC`. Detailed scores of the various models can be found in `ml_models/RFC/ris/results.md`; in-depth descriptions of the algorithms used and why they were used are in notebooks in the model's main folder.
 	
-	- [ ] **K-Nearest Neighbors Classifier** (from scikit-learn)
+		State: **testing**.
+	
+	- [ ] **K-Nearest Neighbors Classifier** (from scikit-learn), folder `ml_models/KNC`. Detailed scores of the various models can be found in `ml_models/KNC/ris/results.md`; in-depth descriptions of the algorithms used and why they were used are in notebooks in the model's main folder.
+	
+		State: **tuning**.
 	
 	- [ ] **Light Gradient Boosting Machine** (from lightgbm, Microsoft)
 
