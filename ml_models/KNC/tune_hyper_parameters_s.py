@@ -115,5 +115,5 @@ with open('ris/RandomizedSearch_mg_s_out.md', mode='a') as f:
 
 # Send telegram message
 telegram_bot_id = toml.load('../telegram_bot_id.toml')
-params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] RFC grid search terminated.'}
+params = {'chat_id': telegram_bot_id['chat_id'], 'text': '[python] KNC grid search terminated.'}
 requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMessage', params=params)
