@@ -22,7 +22,6 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import RepeatedStratifiedKFold
 
 # Other
-import time
 import requests
 
 
@@ -118,25 +117,6 @@ with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('Average score:', scores.mean(), '+-', scores.std() / np.sqrt(n_splits), file=f)
 
 
-################
-# training time
-
-
-clf = RandomForestClassifier(bootstrap=best_bootstrap,
-                             max_depth=best_max_depth,
-                             max_features=best_max_features,
-                             min_samples_leaf=best_min_samples_leaf,
-                             min_samples_split=best_min_samples_split,
-                             n_estimators=best_n_estimators,
-                             n_jobs=-1)
-t_b = time.time()
-clf.fit(data,target)
-t_e = time.time()
-
-with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
-    print('Time (s):', t_e - t_b, file=f)
-
-
 #####################
 # Data augmentation #
 #####################
@@ -205,33 +185,6 @@ with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('Average score (augmented):', scores_aug.mean(), '+-', scores_aug.std() / np.sqrt(n_splits), file=f)
 
 
-################
-# training time
-
-
-clf = RandomForestClassifier(bootstrap=best_bootstrap,
-                             max_depth=best_max_depth,
-                             max_features=best_max_features,
-                             min_samples_leaf=best_min_samples_leaf,
-                             min_samples_split=best_min_samples_split,
-                             n_estimators=best_n_estimators,
-                             n_jobs=-1)
-data_aug, target_aug = data, target
-data_aug = np.concatenate((data_aug, -data))
-target_aug = np.concatenate((target_aug, target))
-for j in range(1,100):
-    data_aug = np.concatenate((data_aug, np.roll(data, j, axis=1)))
-    data_aug = np.concatenate((data_aug, -np.roll(data, j, axis=1)))
-    target_aug = np.concatenate((target_aug, target))
-    target_aug = np.concatenate((target_aug, target))
-t_b = time.time()
-clf.fit(data_aug, target_aug)
-t_e = time.time()
-
-with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
-    print('Time (s):', t_e - t_b, file=f)
-
-
 ##########
 # Sorted #
 ##########
@@ -243,17 +196,17 @@ requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMe
 with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('\n# Sorted model.', file=f)
 
-
-####################
-# k-fold validation
-
-
 best_bootstrap = False
 best_max_depth = 40
 best_max_features = 'sqrt'
 best_min_samples_leaf = 1
 best_min_samples_split = 2
 best_n_estimators = 200
+
+
+####################
+# k-fold validation
+
 
 data.sort(axis=1)
 
@@ -283,25 +236,6 @@ for train_index, test_index in rskf.split(data, target):
 # Print final score
 with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('Average score:', scores.mean(), '+-', scores.std() / np.sqrt(n_splits), file=f)
-
-
-################
-# training time
-
-
-clf = RandomForestClassifier(bootstrap=best_bootstrap,
-                             max_depth=best_max_depth,
-                             max_features=best_max_features,
-                             min_samples_leaf=best_min_samples_leaf,
-                             min_samples_split=best_min_samples_split,
-                             n_estimators=best_n_estimators,
-                             n_jobs=-1)
-t_b = time.time()
-clf.fit(data,target)
-t_e = time.time()
-
-with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
-    print('Time (s):', t_e - t_b, file=f)
 
 
 ######################
