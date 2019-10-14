@@ -1,3 +1,4 @@
+weights, p, n_neighbors, leaf_size, algorithm
 distance, 6, 2, 32, ball_tree
 uniform, 3, 3, 45, brute
 uniform, 6, 1, 29, ball_tree
