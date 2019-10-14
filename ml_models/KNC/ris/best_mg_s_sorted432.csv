@@ -1,3 +1,4 @@
+weights, p, n_neighbors, leaf_size, algorithm
 uniform, 3, 1, 10, ball_tree
 distance, 4, 1, 10, ball_tree
 uniform, 4, 1, 10, ball_tree
