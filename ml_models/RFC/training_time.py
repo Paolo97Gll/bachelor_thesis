@@ -153,6 +153,7 @@ with open('ris/OUT-time_alglorithms.txt', mode='a') as f:
 # Sort data
 data.sort(axis=1)
 
+# Best training parameters
 best_bootstrap = False
 best_max_depth = 40
 best_max_features = 'sqrt'

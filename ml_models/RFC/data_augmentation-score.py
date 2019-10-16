@@ -196,6 +196,10 @@ requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMe
 with open('ris/OUT-score_alglorithms.txt', mode='a') as f:
     print('\n# Sorted model.', file=f)
 
+# Sort data
+data.sort(axis=1)
+
+# Best training parameters
 best_bootstrap = False
 best_max_depth = 40
 best_max_features = 'sqrt'
@@ -207,8 +211,6 @@ best_n_estimators = 200
 ####################
 # k-fold validation
 
-
-data.sort(axis=1)
 
 # Stratified k-fold
 rskf = RepeatedStratifiedKFold(n_splits=n_splits, n_repeats=n_repeats, random_state=None)
