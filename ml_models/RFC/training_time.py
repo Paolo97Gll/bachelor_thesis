@@ -149,6 +149,9 @@ requests.post('https://api.telegram.org/' + telegram_bot_id['bot_id'] + '/sendMe
 
 with open('ris/OUT-time_alglorithms.txt', mode='a') as f:
     print('\n# Sorted model.', file=f)
+    
+# Sort data
+data.sort(axis=1)
 
 best_bootstrap = False
 best_max_depth = 40
