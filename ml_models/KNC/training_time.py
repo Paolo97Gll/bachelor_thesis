@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
-# RFC: Random Forest Classifier
-# Training time RFC alglorithms with simple data and data augmentation.
+# KNC: K-Neighbors Classifier
+# Training time KNC alglorithms with simple data and data augmentation.
 
 
 #######################################################################
