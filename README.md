@@ -74,9 +74,9 @@ More information on the equations used and the procedures followed are included 
 	
 		Best scores:
 		
-		- Normal data (with mg): `0.8997445317366568 +- 0.01193965755475383`
+		- Normal data (with mg): `0.9003318406156705 +- 0.015007858525928595`
 		
-		- Sorted data (with mg): `0.9989166635416471 +- 0.001539533498944039`
+		- Sorted data (with mg): `0.9984166604166275 +- 0.0017652259678532134`
 	
 		State: **scoring**.
 	
