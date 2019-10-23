@@ -35,7 +35,7 @@ FILL
 _Training time:_
 
 ```
-13.519 s
+0.106 s
 ```
 
 ## Data augmentation training
@@ -69,7 +69,7 @@ _Score:_
 _Training time:_
 
 ```
-5 h  9 m  18.714 s
+45.476 s
 ```
 
 ## Sorted training
@@ -95,7 +95,7 @@ FILL
 _Training time:_
 
 ```
-0.899 s
+0.097 s
 ```
 
 # With probability: computational time
@@ -119,7 +119,7 @@ Same as above.
 _Testing time:_
 
 ```
-6 m  44.651 s
+4 h  0 m  39.048 s
 ```
 
 ## Sorted model
@@ -131,5 +131,5 @@ Same as above.
 _Testing time:_
 
 ```
-3 m  26.799 s
+1 h  23 m  32.290 s
 ```
