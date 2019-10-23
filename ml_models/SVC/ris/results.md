@@ -252,13 +252,13 @@ _Best hyper-parameters:_
 
 ```
 best_kernel = 'linear'
-best_C = 0.06
+best_C = 0.15
 ```
 
 _Score:_
 
 ```
-0.9989599476246728 +- 0.001555334812416503
+0.9993199733123334 +- 0.0012401420493798475
 ```
 
 _Training time:_
