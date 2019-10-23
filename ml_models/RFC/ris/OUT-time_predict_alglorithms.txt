@@ -1,0 +1,7 @@
+# Standard model.
+Training time (s): 13.412407398223877
+Prediction time (s): 404.6508526802063
+
+# Sorted data model.
+Training time (s): 1.0056133270263672
+Prediction time (s): 206.79930901527405

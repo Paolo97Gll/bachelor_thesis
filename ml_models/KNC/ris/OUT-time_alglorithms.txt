@@ -1,0 +1,8 @@
+# Simple model.
+Time (s): 0.1058957576751709
+
+# Data augmentation model.
+Time (s): 45.47594141960144
+
+# Sorted model.
+Time (s): 0.09718990325927734
