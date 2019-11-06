@@ -2,7 +2,7 @@
 
 _Machine learning techniques for glitch detection in Planck/HFI data at 143 GHz._
 
-## TODO and roadmap
+## Description and roadmap
 
 More information on the equations used and the procedures followed are included in the notebooks' comments.
 
