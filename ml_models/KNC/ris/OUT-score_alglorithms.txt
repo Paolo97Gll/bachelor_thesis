@@ -1,0 +1,9 @@
+# Simple model.
+Average score: 0.9010003932316244 +- 0.0049844440446557055
+
+# Data augmentation model.
+Average score: 0.9891651796782064 +- 0.002241956381541215
+Average score (augmented): 0.9891651796782064 +- 0.002241956381541215
+
+# Sorted model.
+Average score: 0.9983331192694955 +- 0.000781519889812155
