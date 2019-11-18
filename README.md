@@ -60,7 +60,7 @@ More information on the equations used and the procedures followed are included 
         
         State: **finished**.
     
-    - [ ] **Random Forest Classifier** (from scikit-learn), folder `ml_models/RFC`. Detailed scores of the various models can be found in `ml_models/RFC/ris/results.md`; in-depth descriptions of the algorithms used and why they were used are in notebooks in the model's main folder.
+    - [x] **Random Forest Classifier** (from scikit-learn), folder `ml_models/RFC`. Detailed scores of the various models can be found in `ml_models/RFC/ris/results.md`; in-depth descriptions of the algorithms used and why they were used are in notebooks in the model's main folder.
     
         Best scores:
         
@@ -68,7 +68,7 @@ More information on the equations used and the procedures followed are included 
         
         - Sorted data (with mg): `0.98992 +- 0.00518`
     
-        State: **scoring**.
+        State: **finished**.
     
     - [x] **K-Nearest Neighbors Classifier** (from scikit-learn), folder `ml_models/KNC`. Detailed scores of the various models can be found in `ml_models/KNC/ris/results.md`; in-depth descriptions of the algorithms used and why they were used are in notebooks in the model's main folder.
     
