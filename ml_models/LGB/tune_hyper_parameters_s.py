@@ -79,7 +79,7 @@ y = data['target']
 space = {
     'num_leaves': 2 + hp.randint('num_leaves', 150),
     'learning_rate': hp.loguniform('learning_rate', np.log(0.01), np.log(0.2)),
-    'min_data_in_leaf': 2 + hp.randint('min_data_in_leaf', 300)
+    'min_data_in_leaf': hp.randint('min_data_in_leaf', 50)
 }
 
 tpe_algorithm = tpe.suggest
