@@ -79,8 +79,8 @@ y = data['target']
 space = {
     'num_leaves': 2 + hp.randint('num_leaves', 150),
     'learning_rate': hp.loguniform('learning_rate', np.log(0.01), np.log(0.5)),
-    'min_data_in_leaf': hp.randint('min_data_in_leaf', 50)
-    'alpha': hp.uniform('alpha', 0, 1)
+    'min_data_in_leaf': hp.randint('min_data_in_leaf', 50),
+    'alpha': hp.uniform('alpha', 0, 1),
     'lambda': hp.randint('lambda', 100)
 }
 
