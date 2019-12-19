@@ -48,7 +48,7 @@ More information on the equations used and the procedures followed are included 
 
     PCA dimensionality reduction technique is used to see, in an intuitive way, if data are clustered in well-delimited groups or if they mix. Looking at the graphs, in both normal and sorted data, glitches (both single and multi) and non-glitches cluster in different and well-defined areas, while glitches and multi glitches are mixed. This means that a machine learning model can make a good distinction between glitches (both single and multi) and non-glitches. Instead, it's unlikely that a machine learning model can distinguish between glitched and multi-glitches. So, it is possible to avoid multiclass classifiers and focus only on binary classifiers. This has also been tested using the SVC model, which confirmed the deduction. So, except for the SVC model, all algorithms do not have the no-multi-glitch (nmg) - multi-glitch (mg) distinction.
     
-    Candidate algorithms are:
+    Detailed scores can be found in `ml_models/summary.pdf`. Candidate algorithms are:
     
     - [x] **C-Support Vector Classifier** (from scikit-learn), folder `ml_models/SVC`. Detailed scores of the various models can be found in `ml_models/SVC/ris/results.md`; in-depth descriptions of the algorithms used and why they were used are in notebooks in the model's main folder.
     
@@ -60,17 +60,17 @@ More information on the equations used and the procedures followed are included 
         
         State: **finished**.
     
-    - [x] **Random Forest Classifier** (from scikit-learn), folder `ml_models/RFC`. Detailed scores of the various models can be found in `ml_models/RFC/ris/results.md`; in-depth descriptions of the algorithms used and why they were used are in notebooks in the model's main folder.
+    - [x] **Random Forest Classifier** (from scikit-learn), folder `ml_models/RFC`; in-depth descriptions of the algorithms used and why they were used are in notebooks in the model's main folder.
     
         Best scores:
         
-        - Normal data (with mg): `0.91433 +- 0.01130` | `` (data aug)
+        - Normal data (with mg): `0.91433 +- 0.01130` | `0.99608 +- 0.00118` (data aug)
         
         - Sorted data (with mg): `0.98992 +- 0.00518`
     
         State: **finished**.
     
-    - [x] **K-Nearest Neighbors Classifier** (from scikit-learn), folder `ml_models/KNC`. Detailed scores of the various models can be found in `ml_models/KNC/ris/results.md`; in-depth descriptions of the algorithms used and why they were used are in notebooks in the model's main folder.
+    - [x] **K-Nearest Neighbors Classifier** (from scikit-learn), folder `ml_models/KNC`; in-depth descriptions of the algorithms used and why they were used are in notebooks in the model's main folder.
     
         Best scores:
         
@@ -80,7 +80,15 @@ More information on the equations used and the procedures followed are included 
     
         State: **finished**.
     
-    - [ ] **Light Gradient Boosting Machine** (from lightgbm, Microsoft)
+    - [ ] **Light Gradient Boosting Machine** (from lightgbm, Microsoft), folder `ml_models/LGB`; in-depth descriptions of the algorithms used and why they were used are in notebooks in the model's main folder.
+    
+        Best scores:
+        
+        - Normal data (with mg): `0.91316 +- 0.01207` | `` (data aug)
+        
+        - Sorted data (with mg): ``
+        
+        State: **scoring**.
 
 
 ## Results
