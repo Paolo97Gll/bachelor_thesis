@@ -60,13 +60,13 @@ data.sort(axis=1)
 
 # Grid
 parameters = {
-    'learning_rate': np.arange(0.001, 0.2, 0.001),
-    'min_data_in_leaf': range(1, 300),
-    'num_leaves': range(2, 150)
+    'learning_rate': np.arange(0.130, 0.190, 0.001),
+    'min_data_in_leaf': range(20, 60),
+    'num_leaves': range(120, 160)
 }
 
 # Start search
-GSCV = RandomizedSearchCV(LGBMClassifier(), parameters, n_iter=5e4, n_jobs=-1, cv=5, iid=False)
+GSCV = GridSearchCV(LGBMClassifier(), parameters, n_jobs=-1, cv=5, iid=False)
 #print('START')
 t_b = time.time()
 GSCV.fit(data, target)
@@ -78,10 +78,10 @@ print('Score:', GSCV.best_score_)
 print('Time (s):', t_e - t_b)
 
 # Print into a file the grid score
-with open('ris/RandomizedSearch_mg_s_out.md', mode='a') as f:
+with open('ris/GridSearch_mg_s_out.md', mode='a') as f:
     print('# ' + time.ctime(), file=f)
     print('', file=f)
-    print('### RandomizedSearchCV parameters:', file=f)
+    print('### GridSearchCV parameters:', file=f)
     print('', file=f)
     print('```python', file=f)
     print(GSCV.get_params, file=f)

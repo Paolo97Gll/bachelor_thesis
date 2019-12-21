@@ -59,13 +59,13 @@ with pd.HDFStore('../../classification/ris/OUT-classified-merged.h5', mode='r') 
 
 # Grid
 parameters = {
-    'learning_rate': np.arange(0.001, 0.2, 0.001),
-    'min_data_in_leaf': range(1, 300),
-    'num_leaves': range(2, 150)
+    'learning_rate': np.arange(0.090, 0.150, 0.001),
+    'min_data_in_leaf': range(1, 20),
+    'num_leaves': range(13, 53)
 }
 
-# Start search
-GSCV = RandomizedSearchCV(LGBMClassifier(), parameters, n_iter=5e4, n_jobs=-1, cv=5, iid=False)
+# Start search:
+GSCV = GridSearchCV(LGBMClassifier(), parameters, n_jobs=-1, cv=5, iid=False)
 #print('START')
 t_b = time.time()
 GSCV.fit(data, target)
@@ -77,10 +77,10 @@ print('Score:', GSCV.best_score_)
 print('Time (s):', t_e - t_b)
 
 # Print into a file the grid score
-with open('ris/RandomizedSearch_mg_out.md', mode='a') as f:
+with open('ris/GridSearch_mg_out.md', mode='a') as f:
     print('# ' + time.ctime(), file=f)
     print('', file=f)
-    print('### RandomizedSearchCV parameters:', file=f)
+    print('### GridSearchCV parameters:', file=f)
     print('', file=f)
     print('```python', file=f)
     print(GSCV.get_params, file=f)
