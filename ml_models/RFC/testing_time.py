@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
-# SVC: C-Support Vector Classification
+# RFC: Random Forest Classifier
 # Testing time RFC alglorithms with simple data and data augmentation.
 
 
