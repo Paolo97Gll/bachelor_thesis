@@ -72,7 +72,9 @@ DETECTOR_LIST = ['143-5', '143-6', '143-7']
 
 
 with open('ris/RL_test.txt', mode='a') as f:
-    print('Normal model', file=f)
+    print('##### Normal model #####', file=f)
+
+T1 = time.time()
 
 best_kernel = 'rbf'
 best_gamma = 0.0151
@@ -104,10 +106,13 @@ for OD in OPERATING_DAY_LIST:
         
         t_list.append(t)
         with open('ris/RL_test.txt', mode='a') as f:
-            print('OD ' + OD + ', detector ' + detector + ':', t, file=f)
+            print('OD ' + OD + ', detector ' + detector + ' [s]:', t, file=f)
+
+T2 = time.time()
 
 with open('ris/RL_test.txt', mode='a') as f:
-    print('Total time:', np.sum(t_list), file=f)
+    print('Model time [s]:', np.sum(t_list), file=f)
+    print('Total time [s]:', T2 - T1, file=f)
 
 
 #######################################################################
@@ -115,7 +120,9 @@ with open('ris/RL_test.txt', mode='a') as f:
 
 
 with open('ris/RL_test.txt', mode='a') as f:
-    print('Bagging model', file=f)
+    print('##### Bagging model #####', file=f)
+
+T1 = time.time()
 
 n_estimators = 4
 max_samples = 0.95
@@ -149,10 +156,13 @@ for OD in OPERATING_DAY_LIST:
         
         t_list.append(t)
         with open('ris/RL_test.txt', mode='a') as f:
-            print('OD ' + OD + ', detector ' + detector + ':', t, file=f)
+            print('OD ' + OD + ', detector ' + detector + ' [s]:', t, file=f)
+
+T2 = time.time()
 
 with open('ris/RL_test.txt', mode='a') as f:
-    print('Total time:', np.sum(t_list), file=f)
+    print('Model time [s]:', np.sum(t_list), file=f)
+    print('Total time [s]:', T2 - T1, file=f)
 
 
 #######################################################################
@@ -160,7 +170,9 @@ with open('ris/RL_test.txt', mode='a') as f:
 
 
 with open('ris/RL_test.txt', mode='a') as f:
-    print('Sorted model', file=f)
+    print('##### Sorted model #####', file=f)
+
+T1 = time.time()
 
 train_data_s = np.sort(train_data, axis=1)
 
@@ -193,7 +205,10 @@ for OD in OPERATING_DAY_LIST:
         
         t_list.append(t)
         with open('ris/RL_test.txt', mode='a') as f:
-            print('OD ' + OD + ', detector ' + detector + ':', t, file=f)
+            print('OD ' + OD + ', detector ' + detector + ' [s]:', t, file=f)
+
+T2 = time.time()
 
 with open('ris/RL_test.txt', mode='a') as f:
-    print('Total time:', np.sum(t_list), file=f)
+    print('Model time [s]:', np.sum(t_list), file=f)
+    print('Total time [s]:', T2 - T1, file=f)
