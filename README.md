@@ -44,7 +44,7 @@ More information on the equations used and the procedures followed are included 
         
     - [x] **Classify data**; number of data to be classified: 2000 (1000 with a glitch, 1000 without it).
 
-- [ ] **BUILD MACHINE LEARNING MODELS**, folder `ml_models`: train and test various machine learning algorithms.
+- [x] **BUILD MACHINE LEARNING MODELS**, folder `ml_models`: train and test various machine learning algorithms.
 
     PCA dimensionality reduction technique is used to see, in an intuitive way, if data are clustered in well-delimited groups or if they mix. Looking at the graphs, in both normal and sorted data, glitches (both single and multi) and non-glitches cluster in different and well-defined areas, while glitches and multi glitches are mixed. This means that a machine learning model can make a good distinction between glitches (both single and multi) and non-glitches. Instead, it's unlikely that a machine learning model can distinguish between glitched and multi-glitches. So, it is possible to avoid multiclass classifiers and focus only on binary classifiers. This has also been tested using the SVC model, which confirmed the deduction. So, except for the SVC model, all algorithms do not have the no-multi-glitch (nmg) - multi-glitch (mg) distinction.
     
@@ -80,7 +80,7 @@ More information on the equations used and the procedures followed are included 
     
         State: **finished**.
     
-    - [ ] **Light Gradient Boosting Machine** (from lightgbm, Microsoft), folder `ml_models/LGB`; in-depth descriptions of the algorithms used and why they were used are in notebooks in the model's main folder.
+    - [x] **Light Gradient Boosting Machine** (from lightgbm, Microsoft), folder `ml_models/LGB`; in-depth descriptions of the algorithms used and why they were used are in notebooks in the model's main folder.
     
         Best scores:
         
@@ -88,7 +88,7 @@ More information on the equations used and the procedures followed are included 
         
         - Sorted data (with mg): ``
         
-        State: **scoring**.
+        State: **finished**.
 
 
 ## Results
