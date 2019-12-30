@@ -93,7 +93,7 @@ More information on the equations used and the procedures followed are included 
 
 ## Results
 
-See [here](https://github.com/Paolo97Gll/bachelor_thesis/blob/master/ml_models/summary.pdf) (file `summary.pdf`).
+See [here](https://github.com/Paolo97Gll/bachelor_thesis/blob/master/ml_models/ml_summary.pdf) (file `ml_summary.pdf`).
 
 ## Resources
 
