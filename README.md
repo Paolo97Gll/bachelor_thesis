@@ -84,9 +84,9 @@ More information on the equations used and the procedures followed are included 
     
         Best scores:
         
-        - Normal data (with mg): `0.91316 +- 0.01207` | `` (data aug)
+        - Normal data (with mg): `0.91316 +- 0.01207` | `0.95430 +- 0.00372` (data aug)
         
-        - Sorted data (with mg): ``
+        - Sorted data (with mg): `0.99617 +- 0.00184`
         
         State: **finished**.
 
